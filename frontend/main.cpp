@@ -7,5 +7,7 @@ int main(int argc, char *argv[])
     PZDBMainWindow w;
     w.show();
 
+    QObject::connect(&w, &PZDBMainWindow::closeApplication, &a, QApplication::exit);
+
     return a.exec();
 }

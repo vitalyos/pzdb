@@ -15,8 +15,14 @@ public:
     explicit PZDBMainWindow(QWidget *parent = 0);
     ~PZDBMainWindow();
 
+private slots:
+    void on_actionExit_triggered();
+
 private:
     Ui::PZDBMainWindow *ui;
+
+signals:
+    void closeApplication(const int &status = 0);
 };
 
 #endif // PZDBMAINWINDOW_H

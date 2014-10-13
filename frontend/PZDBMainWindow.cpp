@@ -12,3 +12,8 @@ PZDBMainWindow::~PZDBMainWindow()
 {
     delete ui;
 }
+
+void PZDBMainWindow::on_actionExit_triggered()
+{
+    emit closeApplication();
+}
