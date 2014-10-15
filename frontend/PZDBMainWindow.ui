@@ -11,12 +11,19 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>PZDBMainWindow</string>
+   <string>PZDB</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QTreeView" name="databaseStructure"/>
+     <widget class="QTreeView" name="databaseStructure">
+      <property name="maximumSize">
+       <size>
+        <width>2014</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -38,7 +45,24 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuNew">
+     <property name="title">
+      <string>new</string>
+     </property>
+     <addaction name="actionTable"/>
+     <addaction name="actionDatabase"/>
+    </widget>
+    <widget class="QMenu" name="menuDrop">
+     <property name="title">
+      <string>drop</string>
+     </property>
+     <addaction name="actionTable_2"/>
+     <addaction name="actionDatabase_2"/>
+    </widget>
     <addaction name="actionExit"/>
+    <addaction name="separator"/>
+    <addaction name="menuNew"/>
+    <addaction name="menuDrop"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
@@ -58,6 +82,26 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionTable">
+   <property name="text">
+    <string>table</string>
+   </property>
+  </action>
+  <action name="actionDatabase">
+   <property name="text">
+    <string>database</string>
+   </property>
+  </action>
+  <action name="actionTable_2">
+   <property name="text">
+    <string>table</string>
+   </property>
+  </action>
+  <action name="actionDatabase_2">
+   <property name="text">
+    <string>database</string>
    </property>
   </action>
  </widget>

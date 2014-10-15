@@ -2,6 +2,11 @@
 #define PZDBMAINWINDOW_H
 
 #include <QMainWindow>
+#include "DataBaseXmlModel.h"
+#include <QAbstractItemModel>
+#include <QFile>
+#include <QDomDocument>
+#include <QDebug>
 
 namespace Ui {
 class PZDBMainWindow;
@@ -20,6 +25,8 @@ private slots:
 
 private:
     Ui::PZDBMainWindow *ui;
+    QDomDocument _document;
+    void loadFile (const QString &fname);
 
 signals:
     void closeApplication(const int &status = 0);
