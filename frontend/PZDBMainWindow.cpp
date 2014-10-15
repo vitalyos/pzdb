@@ -1,5 +1,6 @@
 #include "PZDBMainWindow.h"
 #include "ui_PZDBMainWindow.h"
+#include "XmlEditor.h"
 
 PZDBMainWindow::PZDBMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,6 +14,9 @@ PZDBMainWindow::PZDBMainWindow(QWidget *parent) :
     } catch (std::exception *ex) {
         qDebug () << ex->what();
     }
+    XmlEditor editor ("DataBases.xml");
+//    editor.dropDatabase("Premium");
+    editor.createDatabase("Zsolt");
 }
 
 PZDBMainWindow::~PZDBMainWindow()

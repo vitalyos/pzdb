@@ -8,6 +8,9 @@
 #include <QDomElement>
 #include <QFile>
 #include <QDomAttr>
+#include <QDebug>
+#include <QTextStream>
+
 class XmlEditor
 {
 public:
@@ -16,6 +19,9 @@ public:
     bool dropDatabase (const QString &databaseName);
 private:
     QDomDocument _document;
+    QString _fileName;
+
+    void save ();
 };
 
 #endif // XMLEDITOR_H
