@@ -1,13 +1,8 @@
 #include "XmlEditor.h"
 
-XmlEditor::XmlEditor(const QString &filename)
-    :_fileName (filename)
+XmlEditor::XmlEditor(const QDomDocument &document, const QString &filename)
+    :_document (document), _fileName (filename)
 {
-    QFile *file = new QFile (_fileName);
-    file->open(QIODevice::ReadOnly | QIODevice::Text);
-    _document.setContent(file);
-    file->close();
-    delete file;
 }
 
 bool XmlEditor::createDatabase(const QString &databaseName)

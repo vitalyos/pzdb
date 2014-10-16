@@ -14,7 +14,7 @@
 class XmlEditor
 {
 public:
-    XmlEditor(const QString &filename);
+    XmlEditor(const QDomDocument &document, const QString &filename);
     bool createDatabase (const QString &databaseName);
     bool dropDatabase (const QString &databaseName);
     bool dropTable (const QString &databaseName, const QString &tableName);

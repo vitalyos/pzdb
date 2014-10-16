@@ -11,13 +11,13 @@ PZDBMainWindow::PZDBMainWindow(QWidget *parent) :
     try {
         QAbstractItemModel *model = new DataBaseXmlModel (_document);
         ui->databaseStructure->setModel(model);
+        XmlEditor editor (_document, "DataBases.xml");
+    //    editor.dropDatabase("Premium");
+    //    editor.createDatabase("Zsolt");
+        editor.dropTable("Zsolt", "Elso");
     } catch (std::exception *ex) {
         qDebug () << ex->what();
     }
-    XmlEditor editor ("DataBases.xml");
-//    editor.dropDatabase("Premium");
-//    editor.createDatabase("Zsolt");
-    editor.dropTable("Zsolt", "Elso");
 }
 
 PZDBMainWindow::~PZDBMainWindow()
@@ -34,7 +34,7 @@ void PZDBMainWindow::loadFile(const QString &fname)
 {
     try {
         QFile *file = new QFile(fname);
-        if (file->open(QIODevice::ReadOnly)) {
+        if (file->open(QIODevice::ReadOnly | QIODevice::Text)) {
             if (!_document.setContent(file)) {
                 qDebug () << "Error at document loading";
             }
