@@ -16,7 +16,8 @@ PZDBMainWindow::PZDBMainWindow(QWidget *parent) :
     }
     XmlEditor editor ("DataBases.xml");
 //    editor.dropDatabase("Premium");
-    editor.createDatabase("Zsolt");
+//    editor.createDatabase("Zsolt");
+    editor.dropTable("Zsolt", "Elso");
 }
 
 PZDBMainWindow::~PZDBMainWindow()

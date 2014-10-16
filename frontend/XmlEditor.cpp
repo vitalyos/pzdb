@@ -41,6 +41,27 @@ bool XmlEditor::dropDatabase(const QString &databaseName)
     return false;
 }
 
+bool XmlEditor::dropTable(const QString &databaseName, const QString &tableName)
+{
+    QDomElement root = _document.firstChildElement();
+    QDomNodeList dbs = root.childNodes();
+    for (int i = 0; i < dbs.count(); ++i) {
+        QDomElement el = dbs.at(i).toElement();
+        if (el.attribute("dataBaseName") == databaseName) {
+            QDomNodeList tables = el.firstChildElement().childNodes();
+            for (int j = 0; j < tables.count(); ++j) {
+                QDomElement table = tables.at(j).toElement();
+                if (table.attribute("tableName") == tableName) {
+                    el.firstChildElement().removeChild(table);
+                    save ();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 void XmlEditor::save()
 {
     QFile *file = new QFile (_fileName);
