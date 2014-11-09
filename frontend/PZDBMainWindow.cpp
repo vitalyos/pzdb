@@ -1,23 +1,37 @@
 #include "PZDBMainWindow.h"
 #include "ui_PZDBMainWindow.h"
-#include "XmlEditor.h"
+#include "BaseCatalogEntity.h"
+#include "DataBaseCatalogSerializer.h"
+#include <QStandardItemModel>
+#include <QList>
+
+//#define SAVE true
 
 PZDBMainWindow::PZDBMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PZDBMainWindow)
 {
     ui->setupUi(this);
-    loadFile("DataBases.xml");
-    try {
-        QAbstractItemModel *model = new DataBaseXmlModel (_document);
-        ui->databaseStructure->setModel(model);
-        XmlEditor editor (_document, "DataBases.xml");
-    //    editor.dropDatabase("Premium");
-    //    editor.createDatabase("Zsolt");
-        editor.dropTable("Zsolt", "Elso");
-    } catch (std::exception *ex) {
-        qDebug () << ex->what();
-    }
+    QStandardItemModel * model = new QStandardItemModel();
+    DataBaseCatalogSerializer ser ("catalog.ini");
+    ui->databaseStructure->setModel(model);
+#ifdef SAVE
+    BaseCatalogEntity dbs("Databases");
+    DataBaseEntity * univ = new DataBaseEntity("University");
+    DataBaseEntity * work = new DataBaseEntity("Work");
+    DataBaseEntity * free = new DataBaseEntity("Freetime");
+    QList<QStandardItem *> tableFields;
+    tableFields << new FieldEntity("userid", 1) << new FieldEntity ("password", 2);
+    TableEntity *table = new TableEntity ("users", tableFields);
+    univ->addTable(table);
+    dbs.addDatabase(univ);
+    dbs.addDatabase(work);
+    dbs.addDatabase(free);
+    ser.save(dbs);
+#else
+    BaseCatalogEntity dbs = ser.load();
+#endif
+    model->appendRow (new BaseCatalogEntity(dbs));
 }
 
 PZDBMainWindow::~PZDBMainWindow()
@@ -48,4 +62,15 @@ void PZDBMainWindow::loadFile(const QString &fname)
     } catch (std::exception &ex) {
         qDebug () << ex.what();
     }
+}
+
+void PZDBMainWindow::on_actionDatabase_triggered()
+{
+
+}
+
+void PZDBMainWindow::on_actionDatabase_2_triggered()
+{
+    DropDatabase *dd = new DropDatabase(this);
+    dd->show();
 }

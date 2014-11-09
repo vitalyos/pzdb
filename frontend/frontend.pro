@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT += core gui
-QT += xml
+QT += xml uitools
 QMAKE_CXXFLAGS += -std=gnu++0x
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -15,13 +15,27 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         PZDBMainWindow.cpp \
-    DataBaseXmlModel.cpp \
-    DomItem.cpp \
-    XmlEditor.cpp
+    DropDatabase.cpp \
+    BaseCatalogEntity.cpp \
+    StreamOverloads.cpp \
+    DataBaseEntity.cpp \
+    TableEntity.cpp \
+    FieldEntity.cpp \
+    DataBaseCatalogSerializer.cpp
 
 HEADERS  += PZDBMainWindow.h \
-    DataBaseXmlModel.h \
-    DomItem.h \
-    XmlEditor.h
+    DropDatabase.h \
+    Role.h \
+    BaseCatalogEntity.h \
+    StreamOverloads.h \
+    DataBaseEntity.h \
+    TableEntity.h \
+    FieldEntity.h \
+    Enumerator.h \
+    DataBaseCatalogSerializer.h
 
-FORMS    += PZDBMainWindow.ui
+FORMS    += PZDBMainWindow.ui \
+    DropDatabase.ui
+
+RESOURCES += \
+    resource.qrc

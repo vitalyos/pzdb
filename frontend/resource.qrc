@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/forms">
+        <file>DropDatabase.ui</file>
+    </qresource>
+</RCC>

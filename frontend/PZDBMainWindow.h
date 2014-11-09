@@ -2,11 +2,13 @@
 #define PZDBMAINWINDOW_H
 
 #include <QMainWindow>
-#include "DataBaseXmlModel.h"
 #include <QAbstractItemModel>
 #include <QFile>
 #include <QDomDocument>
 #include <QDebug>
+#include <QWindow>
+#include <QUiLoader>
+#include "DropDatabase.h"
 
 namespace Ui {
 class PZDBMainWindow;
@@ -22,6 +24,10 @@ public:
 
 private slots:
     void on_actionExit_triggered();
+
+    void on_actionDatabase_triggered();
+
+    void on_actionDatabase_2_triggered();
 
 private:
     Ui::PZDBMainWindow *ui;
