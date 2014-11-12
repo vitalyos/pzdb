@@ -1,5 +1,6 @@
 #include "PZDBController.h"
 
-PZDBController::PZDBController()
+PZDBController::PZDBController(MongoService *service)
+    : m_MongoService (service)
 {
 }

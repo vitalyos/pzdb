@@ -4,8 +4,9 @@
 #
 #-------------------------------------------------
 
-QT += core gui
-QT += xml uitools
+QT += core gui xml uitools
+unix:!macx: LIBS += -lmongoclient -lboost_thread-mt -lboost_filesystem -lboost_program_options -lboost_system
+
 QMAKE_CXXFLAGS += -std=gnu++0x
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
