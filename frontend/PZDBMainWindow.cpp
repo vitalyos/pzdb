@@ -15,6 +15,13 @@ PZDBMainWindow::PZDBMainWindow(QWidget *parent) :
     QStandardItemModel * model = new QStandardItemModel();
     DataBaseCatalogSerializer ser ("catalog.ini");
     ui->databaseStructure->setModel(model);
+    ui->databaseStructure->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_Righclick = new QMenu(ui->databaseStructure);
+//    m_Action = new QAction("Drop table", m_Righclick);
+//    ui->databaseStructure->addAction(m_Action);
+//    ui->databaseStructure->addAction(new QAction("Drop Database", m_Righclick));
+    QObject::connect(ui->databaseStructure, &QTreeView::customContextMenuRequested,
+                     this, &PZDBMainWindow::onCustomContextMenu);
 #ifdef SAVE
     BaseCatalogEntity dbs("Databases");
     DataBaseEntity * univ = new DataBaseEntity("University");
@@ -44,26 +51,6 @@ void PZDBMainWindow::on_actionExit_triggered()
     emit closeApplication();
 }
 
-void PZDBMainWindow::loadFile(const QString &fname)
-{
-    try {
-        QFile *file = new QFile(fname);
-        if (file->open(QIODevice::ReadOnly | QIODevice::Text)) {
-            if (!_document.setContent(file)) {
-                qDebug () << "Error at document loading";
-            }
-        } else {
-            qDebug () << "Error at file loading";
-        }
-
-        file->close();
-        delete file;
-        qDebug () << "ok";
-    } catch (std::exception &ex) {
-        qDebug () << ex.what();
-    }
-}
-
 void PZDBMainWindow::on_actionDatabase_triggered()
 {
 
@@ -73,4 +60,15 @@ void PZDBMainWindow::on_actionDatabase_2_triggered()
 {
     DropDatabase *dd = new DropDatabase(this);
     dd->show();
+}
+
+void PZDBMainWindow::onCustomContextMenu(const QPoint &point)
+{
+    QModelIndex index = ui->databaseStructure->indexAt(point);
+    qDebug () << "row:" << index.row() << "column:" << index.column();
+    QAction * act = new QAction("Drop table", m_Righclick);
+    m_Righclick->addAction(act);
+    if (index.isValid()) {
+        m_Righclick->exec(ui->databaseStructure->mapToGlobal(point));
+    }
 }

@@ -8,6 +8,10 @@
 #include <QDebug>
 #include <QWindow>
 #include <QUiLoader>
+#include <QMenu>
+#include <QAction>
+#include <QObject>
+#include <QPoint>
 #include "DropDatabase.h"
 
 namespace Ui {
@@ -29,11 +33,13 @@ private slots:
 
     void on_actionDatabase_2_triggered();
 
+    void onCustomContextMenu (const QPoint &point);
+
 private:
     Ui::PZDBMainWindow *ui;
-    QDomDocument _document;
-    void loadFile (const QString &fname);
 
+    QMenu * m_Righclick;
+    QAction * m_Action;
 signals:
     void closeApplication(const int &status = 0);
 };
