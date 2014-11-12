@@ -7,6 +7,9 @@
 #include "TableEntity.h"
 #include "FieldEntity.h"
 
+#include "MongoService.h"
+#include "PZDBController.h"
+
 int main(int argc, char *argv[])
 {
     qRegisterMetaType<BaseCatalogEntity>("BaseCatalogEntity");
@@ -21,6 +24,9 @@ int main(int argc, char *argv[])
     qRegisterMetaTypeStreamOperators<FieldEntity>("FieldEntity");
 
     QApplication a(argc, argv);
+
+    MongoService * service = new MongoService ();
+    PZDBController * controller = new PZDBController (service);
 
     PZDBMainWindow w;
     w.show();
