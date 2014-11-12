@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     DataBaseEntity.cpp \
     TableEntity.cpp \
     FieldEntity.cpp \
-    DataBaseCatalogSerializer.cpp
+    DataBaseCatalogSerializer.cpp \
+    PZDBController.cpp \
+    MongoService.cpp
 
 HEADERS  += PZDBMainWindow.h \
     DropDatabase.h \
@@ -32,7 +34,9 @@ HEADERS  += PZDBMainWindow.h \
     TableEntity.h \
     FieldEntity.h \
     Enumerator.h \
-    DataBaseCatalogSerializer.h
+    DataBaseCatalogSerializer.h \
+    PZDBController.h \
+    MongoService.h
 
 FORMS    += PZDBMainWindow.ui \
     DropDatabase.ui
