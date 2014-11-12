@@ -1,6 +1,8 @@
 #ifndef PZDBCONTROLLER_H
 #define PZDBCONTROLLER_H
 
+#include <QDebug>
+
 #include "MongoService.h"
 
 class PZDBController
