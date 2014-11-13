@@ -9,15 +9,18 @@
 class FieldEntity : public QStandardItem
 {
 public:
-    FieldEntity(const QString &name, const quint8 &type);
+    FieldEntity(const QString &name, const quint8 &type, const quint32 &length);
     FieldEntity();
     FieldEntity(const FieldEntity &other);
 
     quint8 fieldType () const;
+    quint32 length () const;
 
     void setFieldType (const quint8 &type);
+    void setLength (const quint32 &length);
 private:
     quint8 m_Type;
+    quint32 m_Lenght;
 };
 
 

@@ -1,7 +1,7 @@
 #include "FieldEntity.h"
 
-FieldEntity::FieldEntity(const QString &name, const quint8 &type)
-    :QStandardItem (name), m_Type (type)
+FieldEntity::FieldEntity(const QString &name, const quint8 &type, const quint32 &length)
+    :QStandardItem (name), m_Type (type), m_Lenght (length)
 {
 }
 
@@ -24,6 +24,16 @@ quint8 FieldEntity::fieldType() const
 void FieldEntity::setFieldType(const quint8 &type)
 {
     m_Type = type;
+}
+
+quint32 FieldEntity::length() const
+{
+    return m_Lenght;
+}
+
+void FieldEntity::setLength(const quint32 &length)
+{
+    m_Lenght = length;
 }
 
 QDataStream& operator << (QDataStream &out,  const FieldEntity &fe)
