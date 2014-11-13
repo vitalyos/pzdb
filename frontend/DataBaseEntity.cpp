@@ -3,7 +3,6 @@
 DataBaseEntity::DataBaseEntity(const QString &name)
     : QStandardItem (name)
 {
-    qDebug () << text();
 }
 
 DataBaseEntity::DataBaseEntity (const DataBaseEntity &other)
@@ -23,11 +22,9 @@ QDataStream& operator << (QDataStream &out,  const DataBaseEntity &dbe)
 {
     int length = dbe.rowCount();
     out << dbe.text() << length;
-    qDebug () << "DBE length" << length;
     for (int i = 0; i < length; ++i) {
         TableEntity * table = (TableEntity*)dbe.child(i);
         out << *table;
-        qDebug () << table->text();
     }
     return out;
 }
@@ -38,12 +35,10 @@ QDataStream& operator >> (QDataStream &in, DataBaseEntity &dbe)
     QString text;
     in >> text >> length;
     dbe.setText(text);
-    qDebug () << text << "DBE length" << length;
     for (int i = 0; i < length; ++i) {
         TableEntity table;
         in >> table;
         dbe.appendRow(new TableEntity(table));
-        qDebug () << table.text();
     }
     return in;
 }

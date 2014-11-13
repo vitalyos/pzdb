@@ -3,7 +3,6 @@
 FieldEntity::FieldEntity(const QString &name, const quint8 &type)
     :QStandardItem (name), m_Type (type)
 {
-    qDebug () << text() << m_Type;
 }
 
 FieldEntity::FieldEntity ()
@@ -30,7 +29,6 @@ void FieldEntity::setFieldType(const quint8 &type)
 QDataStream& operator << (QDataStream &out,  const FieldEntity &fe)
 {
     out << fe.text() << fe.fieldType();
-    qDebug () << fe.text();
     return out;
 }
 
@@ -41,6 +39,5 @@ QDataStream& operator >> (QDataStream &in, FieldEntity &fe)
     in >> text >> type;
     fe.setText(text);
     fe.setFieldType(type);
-    qDebug () << fe.text();
     return in;
 }
