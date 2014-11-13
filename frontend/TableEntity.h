@@ -12,6 +12,7 @@ class TableEntity : public QStandardItem
 public:
     TableEntity(const QString &name = QString(), const QList<QStandardItem *> &fields = QList<QStandardItem*>());
     TableEntity(const TableEntity &other);
+    QList<FieldEntity> fields () const;
 };
 
 QDataStream& operator << (QDataStream &out,  const TableEntity &te);

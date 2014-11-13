@@ -14,6 +14,15 @@ TableEntity::TableEntity (const TableEntity &other)
     }
 }
 
+QList<FieldEntity> TableEntity::fields() const
+{
+    QList<FieldEntity> ret;
+    for (int i = 0 ; i < rowCount(); ++i) {
+        ret << *(FieldEntity*)child(i);
+    }
+    return ret;
+}
+
 QDataStream& operator << (QDataStream &out,  const TableEntity &te)
 {
     int length = te.rowCount();

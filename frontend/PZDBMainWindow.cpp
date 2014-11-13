@@ -28,7 +28,9 @@ PZDBMainWindow::PZDBMainWindow(QWidget *parent) :
     DataBaseEntity * work = new DataBaseEntity("Work");
     DataBaseEntity * free = new DataBaseEntity("Freetime");
     QList<QStandardItem *> tableFields;
-    tableFields << new FieldEntity("userid", 1) << new FieldEntity ("password", 2);
+    tableFields << new FieldEntity ("userid", 1, 20, true)
+                << new FieldEntity ("password", 2, 30, false)
+                << new FieldEntity ("phone", 1, 15, false);
     TableEntity *table = new TableEntity ("users", tableFields);
     univ->addTable(table);
     dbs.addDatabase(univ);
