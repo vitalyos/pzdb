@@ -1,6 +1,6 @@
 #include "Tools.h"
 
-QPair<QString, QString> Tools::convertData(const TableEntity &table, const QStringList &data) const
+QPair<QString, QString> Tools::convertData(const TableEntity &table, const QStringList &data)
 {
     QString key;
     QString value;
@@ -23,7 +23,7 @@ QPair<QString, QString> Tools::convertData(const TableEntity &table, const QStri
     return QPair<QString, QString>(key, value);
 }
 
-QStringList Tools::restoreData(const TableEntity &table, const QString &data) const
+QStringList Tools::restoreData(const TableEntity &table, const QString &data)
 {
     QStringList retList;
     QList<FieldEntity> fs = table.fields();
