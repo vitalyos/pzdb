@@ -2,7 +2,7 @@
 #define PZDBMAINWINDOW_H
 
 #include <QMainWindow>
-#include <QAbstractItemModel>
+#include <QStandardItemModel>
 #include <QFile>
 #include <QDomDocument>
 #include <QDebug>
@@ -23,7 +23,7 @@ class PZDBMainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit PZDBMainWindow(QWidget *parent = 0);
+    explicit PZDBMainWindow(QStandardItemModel *model, QWidget *parent = 0);
     ~PZDBMainWindow();
 
 private slots:

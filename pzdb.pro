@@ -18,20 +18,19 @@ SOURCES += main.cpp\
         PZDBMainWindow.cpp \
     DropDatabase.cpp \
     BaseCatalogEntity.cpp \
-    StreamOverloads.cpp \
     DataBaseEntity.cpp \
     TableEntity.cpp \
     FieldEntity.cpp \
     DataBaseCatalogSerializer.cpp \
     PZDBController.cpp \
     MongoService.cpp \
-    Tools.cpp
+    Tools.cpp \
+    DataBaseStructureModel.cpp
 
 HEADERS  += PZDBMainWindow.h \
     DropDatabase.h \
     Role.h \
     BaseCatalogEntity.h \
-    StreamOverloads.h \
     DataBaseEntity.h \
     TableEntity.h \
     FieldEntity.h \
@@ -39,7 +38,8 @@ HEADERS  += PZDBMainWindow.h \
     DataBaseCatalogSerializer.h \
     PZDBController.h \
     MongoService.h \
-    Tools.h
+    Tools.h \
+    DataBaseStructureModel.h
 
 FORMS    += PZDBMainWindow.ui \
     DropDatabase.ui

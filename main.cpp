@@ -9,6 +9,8 @@
 
 #include "MongoService.h"
 #include "PZDBController.h"
+#include "DataBaseStructureModel.h"
+#include "DataBaseCatalogSerializer.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,9 +29,11 @@ int main(int argc, char *argv[])
 
     MongoService * service = new MongoService ();
     PZDBController * controller = new PZDBController (service);
+    DataBaseCatalogSerializer * serizalizer = new DataBaseCatalogSerializer("catalog.ini");
+    DataBaseStructureModel * model = new DataBaseStructureModel(serizalizer);
+    PZDBMainWindow * w = new PZDBMainWindow(model);
+    w->show();
 
-    PZDBMainWindow w;
-    w.show();
-    QObject::connect(&w, &PZDBMainWindow::closeApplication, &a, QApplication::exit);
+    QObject::connect(w, &PZDBMainWindow::closeApplication, &a, QApplication::exit);
     return a.exec();
 }
