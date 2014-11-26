@@ -22,7 +22,6 @@ void MongoService::insert(const QString &table, const QString &key, const QStrin
     builder << "key" << key.toStdString();
     builder << "value" << value.toStdString();
     m_Connection.insert(convert(table), builder.obj());
-    qDebug () << "insert ok" << table << key << value;
 }
 
 QString MongoService::data(const QString &table, const QString &key)
@@ -35,9 +34,6 @@ QString MongoService::data(const QString &table, const QString &key)
     if (cursor->more()) {
         mongo::BSONObj tempObj = cursor->next();
         ret = tempObj.getStringField("value");
-        qDebug () << "data found for" << key << "in" << table;
-    } else {
-        qDebug () << "data doesn't exists for" << key << "in" << table;
     }
 
     return ret;
@@ -47,5 +43,16 @@ void MongoService::remove(const QString &table, const QString &key)
 {
     m_Connection.remove(convert(table),
                         QUERY("key" << key.toStdString()));
-    qDebug () << "remove ok" << table << key;
+}
+
+QStringList MongoService::getAllRows(const QString &table)
+{
+    QStringList ret;
+    mongo::auto_ptr<mongo::DBClientCursor> cursor;
+    cursor = m_Connection.query(convert(table), mongo::BSONObj());
+    while (cursor->more()) {
+        mongo::BSONObj current = cursor->next();
+        ret << current.getStringField("value");
+    }
+    return ret;
 }

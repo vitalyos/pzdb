@@ -3,8 +3,6 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
-#include <QFile>
-#include <QDomDocument>
 #include <QDebug>
 #include <QWindow>
 #include <QUiLoader>

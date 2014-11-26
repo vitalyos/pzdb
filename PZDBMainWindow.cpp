@@ -1,6 +1,8 @@
 #include "PZDBMainWindow.h"
 #include "ui_PZDBMainWindow.h"
 
+#include <BaseCatalogEntity.h>
+
 PZDBMainWindow::PZDBMainWindow(QStandardItemModel * model, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PZDBMainWindow)
@@ -40,6 +42,10 @@ void PZDBMainWindow::onCustomContextMenu(const QPoint &point)
     qDebug () << "row:" << index.row() << "column:" << index.column();
     QAction * act = new QAction("Drop table", m_Righclick);
     m_Righclick->addAction(act);
+    QVariant content = index.data();
+    if (content.canConvert<BaseCatalogEntity>()) {
+        qDebug () << "nyert ugyunk van :*";
+    }
     if (index.isValid()) {
         m_Righclick->exec(ui->databaseStructure->mapToGlobal(point));
     }

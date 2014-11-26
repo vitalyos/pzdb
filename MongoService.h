@@ -13,6 +13,7 @@ public:
     void insert (const QString &table, const QString &key, const QString &value);
     QString data (const QString &table, const QString &key);
     void remove (const QString &table, const QString &key);
+    QStringList getAllRows (const QString &table);
 private:
     mongo::DBClientConnection m_Connection;
     QString m_ProjectName;
