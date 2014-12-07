@@ -23,6 +23,17 @@ QList<FieldEntity> TableEntity::fields() const
     return ret;
 }
 
+int TableEntity::primaryIndex() const
+{
+    QList<FieldEntity> fs = fields();
+    for (int i = 0; i < fs.length(); ++i) {
+        if (fs.at(i).primary()) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 QDataStream& operator << (QDataStream &out,  const TableEntity &te)
 {
     int length = te.rowCount();

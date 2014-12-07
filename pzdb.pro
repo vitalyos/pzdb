@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     PZDBController.cpp \
     MongoService.cpp \
     Tools.cpp \
-    DataBaseStructureModel.cpp
+    DataBaseStructureModel.cpp \
+    IndexingService.cpp
 
 HEADERS  += PZDBMainWindow.h \
     DropDatabase.h \
@@ -39,7 +40,8 @@ HEADERS  += PZDBMainWindow.h \
     PZDBController.h \
     MongoService.h \
     Tools.h \
-    DataBaseStructureModel.h
+    DataBaseStructureModel.h \
+    IndexingService.h
 
 FORMS    += PZDBMainWindow.ui \
     DropDatabase.ui

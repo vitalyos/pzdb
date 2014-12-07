@@ -11,6 +11,8 @@
 #include "PZDBController.h"
 #include "DataBaseStructureModel.h"
 #include "DataBaseCatalogSerializer.h"
+#include "MongoService.h"
+#include "Tools.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,7 +20,6 @@ int main(int argc, char *argv[])
     qRegisterMetaType<DataBaseEntity>("DataBaseEntity");
     qRegisterMetaType<TableEntity>("TableEntity");
     qRegisterMetaType<FieldEntity>("FieldEntity");
-
 
     qRegisterMetaTypeStreamOperators<BaseCatalogEntity>("BaseCatalogEntity");
     qRegisterMetaTypeStreamOperators<DataBaseEntity>("DataBaseEntity");

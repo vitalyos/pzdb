@@ -1,7 +1,10 @@
 #include "FieldEntity.h"
 
 FieldEntity::FieldEntity(const QString &name, const quint8 &type, const quint32 &length, bool primary)
-    :QStandardItem (name), m_Type (type), m_Lenght (length), m_Primary (primary)
+    :QStandardItem (name),
+      m_Type (type),
+      m_Lenght (length),
+      m_Primary (primary)
 {
 }
 
@@ -12,7 +15,10 @@ FieldEntity::FieldEntity ()
 }
 
 FieldEntity::FieldEntity(const FieldEntity &other)
-    : QStandardItem (other.text()), m_Type (other.fieldType())
+    : QStandardItem (other.text()),
+      m_Type (other.fieldType()),
+      m_Lenght (other.length()),
+      m_Primary (other.primary())
 {
 }
 

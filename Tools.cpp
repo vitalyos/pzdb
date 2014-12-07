@@ -7,7 +7,7 @@ QPair<QString, QString> Tools::convertData(const TableEntity &table, const QStri
     QList<FieldEntity> fs = table.fields();
 
     if (data.size() !=  fs.size()) {
-        qDebug () << "table != data";
+        qDebug () << "table !~ data";
     }
 
     int idx = 0;
@@ -27,14 +27,12 @@ QStringList Tools::restoreData(const TableEntity &table, const QString &data)
 {
     QStringList retList;
     QList<FieldEntity> fs = table.fields();
-
     int from = 0;
-    int to = 0;
 
     for (FieldEntity fe : fs) {
-        to = from + fe.length();
-        retList << data.mid(from, to);
-        from = to + 1;
+        int length = fe.length();
+        retList << data.mid(from, length);
+        from += length;
     }
     return retList;
 }

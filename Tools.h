@@ -11,7 +11,7 @@ class Tools
 {
 public:
      static QPair<QString, QString> convertData(const TableEntity &table, const QStringList &data);
-     QStringList restoreData (const TableEntity &table, const QString & data);
+     static QStringList restoreData (const TableEntity &table, const QString & data);
 };
 
 #endif // TOOLS_H
