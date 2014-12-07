@@ -12,7 +12,6 @@
 #include "DataBaseStructureModel.h"
 #include "DataBaseCatalogSerializer.h"
 #include "MongoService.h"
-#include "Tools.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,7 +27,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    MongoService * service = new MongoService ();
+    MongoService * service = new MongoService;
     PZDBController * controller = new PZDBController (service);
     DataBaseCatalogSerializer * serizalizer = new DataBaseCatalogSerializer("catalog.ini");
     DataBaseStructureModel * model = new DataBaseStructureModel(serizalizer);
