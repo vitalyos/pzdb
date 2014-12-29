@@ -2,7 +2,7 @@
 #define MONGOSERVICE_H
 
 #include "mongo/client/dbclient.h"
-
+#include "mongo/client/dbclientinterface.h"
 #include <QDebug>
 #include <string>
 

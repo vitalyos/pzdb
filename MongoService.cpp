@@ -26,9 +26,9 @@ void MongoService::insert(const QString &table, const QString &key, const QStrin
 
 QString MongoService::data(const QString &table, const QString &key)
 {
-    mongo::auto_ptr<mongo::DBClientCursor> cursor;
+    std::auto_ptr<mongo::DBClientCursor> cursor;
     cursor = m_Connection.query(convert(table),
-                                QUERY ("key" << key.toStdString()));
+                                MONGO_QUERY ("key" << key.toStdString()));
     QString ret;
 
     if (cursor->more()) {
@@ -42,13 +42,13 @@ QString MongoService::data(const QString &table, const QString &key)
 void MongoService::remove(const QString &table, const QString &key)
 {
     m_Connection.remove(convert(table),
-                        QUERY("key" << key.toStdString()));
+                        MONGO_QUERY("key" << key.toStdString()));
 }
 
 QStringList MongoService::getAllRows(const QString &table)
 {
     QStringList ret;
-    mongo::auto_ptr<mongo::DBClientCursor> cursor;
+    std::auto_ptr<mongo::DBClientCursor> cursor;
     cursor = m_Connection.query(convert(table), mongo::BSONObj());
     while (cursor->more()) {
         mongo::BSONObj current = cursor->next();
