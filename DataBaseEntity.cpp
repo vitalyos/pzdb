@@ -1,44 +1,42 @@
 #include "DataBaseEntity.h"
 
 DataBaseEntity::DataBaseEntity(const QString &name)
-    : QStandardItem (name)
+    : m_Name (name)
 {
 }
-
-DataBaseEntity::DataBaseEntity (const DataBaseEntity &other)
-    : QStandardItem (other.text())
+QString DataBaseEntity::name() const
 {
-    for (int i = 0; i < other.rowCount(); ++i) {
-        appendRow(new TableEntity(*(TableEntity*)other.child(i)));
-    }
+    return m_Name;
 }
 
-void DataBaseEntity::addTable(TableEntity *table)
+void DataBaseEntity::setName(const QString &name)
 {
-    appendRow(table);
+    m_Name = name;
+}
+
+QList<TableEntity> DataBaseEntity::tables() const
+{
+    return m_Tables;
+}
+
+void DataBaseEntity::setTables(QList<TableEntity> tables)
+{
+    m_Tables = tables;
 }
 
 QDataStream& operator << (QDataStream &out,  const DataBaseEntity &dbe)
 {
-    int length = dbe.rowCount();
-    out << dbe.text() << length;
-    for (int i = 0; i < length; ++i) {
-        TableEntity * table = (TableEntity*)dbe.child(i);
-        out << *table;
-    }
+    out << dbe.name() << dbe.tables ();
     return out;
 }
 
 QDataStream& operator >> (QDataStream &in, DataBaseEntity &dbe)
 {
-    int length;
-    QString text;
-    in >> text >> length;
-    dbe.setText(text);
-    for (int i = 0; i < length; ++i) {
-        TableEntity table;
-        in >> table;
-        dbe.appendRow(new TableEntity(table));
-    }
+
+    QString name;
+    QList<TableEntity> tls;
+    in >> name >> tls;
+    dbe.setName(name);
+    dbe.setTables(tls);
     return in;
 }

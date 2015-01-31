@@ -4,19 +4,26 @@
 #
 #-------------------------------------------------
 
-QT += core gui xml uitools
+TEMPLATE = app
+
+QT += qml quick core
+
+RESOURCES += qml.qrc
+
 unix:!macx: LIBS += -lmongoclient -lboost_thread-mt -lboost_filesystem -lboost_program_options -lboost_system
 QMAKE_CXXFLAGS += -std=gnu++0x
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = frontend
-TEMPLATE = app
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH =
+
+# Default rules for deployment.
+include(deployment.pri)
+
+
+TARGET = PZDB
 
 SOURCES += main.cpp\
-        PZDBMainWindow.cpp \
-    DropDatabase.cpp \
-    BaseCatalogEntity.cpp \
     DataBaseEntity.cpp \
     TableEntity.cpp \
     FieldEntity.cpp \
@@ -24,13 +31,12 @@ SOURCES += main.cpp\
     PZDBController.cpp \
     MongoService.cpp \
     Tools.cpp \
-    DataBaseStructureModel.cpp \
-    IndexingService.cpp
+    IndexingService.cpp \
+    databasemodel.cpp \
+    DataBaseQueryResultModel.cpp
 
-HEADERS  += PZDBMainWindow.h \
-    DropDatabase.h \
+HEADERS  += \
     Role.h \
-    BaseCatalogEntity.h \
     DataBaseEntity.h \
     TableEntity.h \
     FieldEntity.h \
@@ -39,14 +45,9 @@ HEADERS  += PZDBMainWindow.h \
     PZDBController.h \
     MongoService.h \
     Tools.h \
-    DataBaseStructureModel.h \
-    IndexingService.h
-
-FORMS    += PZDBMainWindow.ui \
-    DropDatabase.ui
-
-RESOURCES += \
-    resource.qrc
+    IndexingService.h \
+    databasemodel.h \
+    DataBaseQueryResultModel.hpp
 
 win32:CONFIG(release, debug|release): LIBS += -L/opt/mongodriver/lib/release/ -lmongoclient
 else:win32:CONFIG(debug, debug|release): LIBS += -L/opt/mongodriver/lib/debug/ -lmongoclient

@@ -3,22 +3,27 @@
 
 #include <QList>
 #include <QString>
-#include <QStandardItem>
 #include <QDebug>
+
 #include "TableEntity.h"
 
 class DataBaseEntity
-        : public QStandardItem
 {
 public:
-    DataBaseEntity(const QString &name = QString());
-    DataBaseEntity (const DataBaseEntity &other);
-    void addTable (TableEntity *table);
+    DataBaseEntity(const QString &name);
+    QString name() const;
+    void setName(const QString &Name);
+
+
+    QList<TableEntity> tables() const;
+    void setTables(QList<TableEntity> tables);
+
+private:
+    QString m_Name;
+    QList<TableEntity> m_Tables;
 };
 
 QDataStream& operator << (QDataStream &out,  const DataBaseEntity &dbe);
 QDataStream& operator >> (QDataStream &in, DataBaseEntity &dbe);
-
-Q_DECLARE_METATYPE (DataBaseEntity)
 
 #endif // DATABASEENTITY_H

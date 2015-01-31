@@ -2,4 +2,7 @@
     <qresource prefix="/forms">
         <file>DropDatabase.ui</file>
     </qresource>
+    <qresource prefix="/">
+        <file>qml/MainPZDBWindow.qml</file>
+    </qresource>
 </RCC>

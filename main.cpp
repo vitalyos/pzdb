@@ -1,39 +1,35 @@
-#include "PZDBMainWindow.h"
-#include <QApplication>
-#include <QMetaType>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QtQml>
 
-#include "BaseCatalogEntity.h"
-#include "DataBaseEntity.h"
-#include "TableEntity.h"
-#include "FieldEntity.h"
-
-#include "MongoService.h"
 #include "PZDBController.h"
-#include "DataBaseStructureModel.h"
-#include "DataBaseCatalogSerializer.h"
-#include "MongoService.h"
+#include "databasemodel.h"
+#include "TableEntity.h"
+#include "DataBaseQueryResultModel.hpp"
+
+void registeTypes ();
 
 int main(int argc, char *argv[])
 {
-    qRegisterMetaType<BaseCatalogEntity>("BaseCatalogEntity");
-    qRegisterMetaType<DataBaseEntity>("DataBaseEntity");
+    QGuiApplication app(argc, argv);
+
+    registeTypes();
+
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+    return app.exec();
+}
+
+void registeTypes()
+{
+    qmlRegisterType<PZDBController>("edu.bbte.pzdb", 1, 0, "Controller");
+    qmlRegisterType<DatabaseModel>("edu.bbte.pzdb", 1, 0, "DatabaseModel");
+    qmlRegisterType<DataBaseQueryResultModel>("edu.bbte.pzdb", 1, 0, "DataBaseQueryResultModel");
+
     qRegisterMetaType<TableEntity>("TableEntity");
-    qRegisterMetaType<FieldEntity>("FieldEntity");
+    qRegisterMetaType< QList<TableEntity> >("QList<TableEntity>");
 
-    qRegisterMetaTypeStreamOperators<BaseCatalogEntity>("BaseCatalogEntity");
-    qRegisterMetaTypeStreamOperators<DataBaseEntity>("DataBaseEntity");
     qRegisterMetaTypeStreamOperators<TableEntity>("TableEntity");
-    qRegisterMetaTypeStreamOperators<FieldEntity>("FieldEntity");
-
-    QApplication a(argc, argv);
-
-    MongoService * service = new MongoService;
-    PZDBController * controller = new PZDBController (service);
-    DataBaseCatalogSerializer * serizalizer = new DataBaseCatalogSerializer("catalog.ini");
-    DataBaseStructureModel * model = new DataBaseStructureModel(serizalizer);
-    PZDBMainWindow * w = new PZDBMainWindow(model);
-    w->show();
-
-    QObject::connect(w, &PZDBMainWindow::closeApplication, &a, QApplication::exit);
-    return a.exec();
+    qRegisterMetaTypeStreamOperators< QList<TableEntity> >("QList<TableEntity>");
 }

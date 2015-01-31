@@ -1,26 +1,30 @@
 #include "TableEntity.h"
 
-TableEntity::TableEntity (const QString &name, const QList<QStandardItem*> &fields)
-    : QStandardItem (name)
+TableEntity::TableEntity (const QString &name, const QList<FieldEntity> &fields)
+    : m_Name (name), m_Fields (fields)
 {
-    appendRows(fields);
 }
 
-TableEntity::TableEntity (const TableEntity &other)
-    : QStandardItem (other.text())
+TableEntity::TableEntity ()
+    : TableEntity (QString(), QList<FieldEntity>())
 {
-    for (int i = 0; i < other.rowCount(); ++i) {
-        appendRow(new FieldEntity(*(FieldEntity*)other.child(i)));
-    }
+
+}
+
+TableEntity::TableEntity(const QString &name)
+    : TableEntity(name, QList<FieldEntity>())
+{
+
 }
 
 QList<FieldEntity> TableEntity::fields() const
 {
-    QList<FieldEntity> ret;
-    for (int i = 0 ; i < rowCount(); ++i) {
-        ret << *(FieldEntity*)child(i);
-    }
-    return ret;
+    return m_Fields;
+}
+
+void TableEntity::setFields (const QList<FieldEntity> &fields)
+{
+    m_Fields = fields;
 }
 
 int TableEntity::primaryIndex() const
@@ -34,29 +38,54 @@ int TableEntity::primaryIndex() const
     return -1;
 }
 
+QString TableEntity::name() const
+{
+    return m_Name;
+}
+
+void TableEntity::setName(const QString &name)
+{
+    m_Name = name;
+}
+
+
 QDataStream& operator << (QDataStream &out,  const TableEntity &te)
 {
-    int length = te.rowCount();
-    out << te.text() << length;
-    for (int i =  0; i < length; ++i) {
-        FieldEntity * ent = (FieldEntity*)te.child(i);
-        out << *ent;
-    }
+    out << te.name () << te.fields ();
     return out;
 }
 
 QDataStream& operator >> (QDataStream &in, TableEntity &te)
 {
     int length;
-    QString text;
-    in >> text >> length;
-    te.setText(text);
-    QList<QStandardItem*> children;
-    for (int i = 0; i < length; ++i) {
-        FieldEntity ent;
-        in >> ent;
-        children << new FieldEntity(ent);
+    QString name;
+    in >> name >> length;
+    te.setName (name);
+    QList<FieldEntity> ents;
+    in >> ents;
+    te.setFields (ents);
+    return in;
+}
+
+QDataStream& operator << (QDataStream &out, const QList<TableEntity> &aList)
+{
+    qDebug () << "..............." << aList.size ();
+    out << aList.size();
+    for (auto &el : aList) {
+        out << el;
     }
-    te.appendRows(children);
+    return out;
+}
+
+QDataStream& operator >> (QDataStream &in, QList<TableEntity> &aList)
+{
+    int size;
+    in >> size;
+    for (int i = 0; i < size; ++i) {
+        TableEntity aEntity;
+        in >> aEntity;
+        aList << aEntity;
+    }
+    qDebug () << "deserialized size: " << aList.size();
     return in;
 }

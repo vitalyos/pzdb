@@ -1,16 +1,25 @@
 #ifndef PZDBCONTROLLER_H
 #define PZDBCONTROLLER_H
 
-#include <QDebug>
+#include <QObject>
 
-#include "MongoService.h"
+class MongoService;
 
 class PZDBController
+        : public QObject
 {
+    Q_OBJECT
 public:
-    PZDBController(MongoService * service);
+    PZDBController(QObject * parentObject = 0);
+    ~PZDBController();
 private:
-    MongoService * m_MongoService;
+//    MongoService * m_MongoService;
+
+public slots:
+    void loadDatabaseCatalog ();
+
+signals:
+    void databeseCatalogLoaded ();
 };
 
 #endif // PZDBCONTROLLER_H

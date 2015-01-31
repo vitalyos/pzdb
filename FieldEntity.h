@@ -2,11 +2,10 @@
 #define FIELDENTITY_H
 #include <QString>
 #include <QList>
-#include <QStandardItem>
 #include <QDebug>
 #include "Enumerator.h"
 
-class FieldEntity : public QStandardItem
+class FieldEntity
 {
 public:
     FieldEntity(const QString &name, const quint8 &type, const quint32 &length, bool primary = false);
@@ -21,16 +20,25 @@ public:
     void setLength (const quint32 &length);
     void setPrimary (const bool &primary);
 
+    QString name() const;
+    void setName(const QString &name);
+
 private:
     quint8 m_Type;
     quint32 m_Lenght;
     bool m_Primary;
+    QString m_Name;
 };
 
 
 QDataStream& operator << (QDataStream &out,  const FieldEntity &fe);
 QDataStream& operator >> (QDataStream &in, FieldEntity &fe);
 
+QDataStream& operator << (QDataStream &out,  const QList<FieldEntity> &fes);
+QDataStream& operator >> (QDataStream &in, QList<FieldEntity> &fe);
+
+
 Q_DECLARE_METATYPE (FieldEntity)
+Q_DECLARE_METATYPE (QList<FieldEntity>)
 
 #endif // FIELDENTITY_H

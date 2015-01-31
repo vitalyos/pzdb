@@ -2,6 +2,7 @@
 
 MongoService::MongoService()
 {
+    mongo::client::initialize ();
     try {
         m_ProjectName = "qoptim";
         m_Connection.connect("localhost");
@@ -21,6 +22,7 @@ void MongoService::insert(const QString &table, const QString &key, const QStrin
     mongo::BSONObjBuilder builder;
     builder << "key" << key.toStdString();
     builder << "value" << value.toStdString();
+    qDebug () << key << value;
     m_Connection.insert(convert(table), builder.obj());
 }
 
