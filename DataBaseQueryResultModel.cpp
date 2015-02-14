@@ -15,14 +15,16 @@ DataBaseQueryResultModel::DataBaseQueryResultModel(QObject *aParent)
 
     m_mongo = new MongoService;
 
-    for (int i = 0; i < 10; ++i) {
-        QStringList al;
-        al << "name" + QString::number (i)
-           << "phone" + QString::number (i)
-           << "user" + QString::number (i) + "@email.com";
-        QPair<QString, QString> res = Tools::convertData (m_currentTable, al);
-        m_mongo->insert (m_currentTable.name (), res.first, res.second);
-    }
+//    for (int i = 0; i < 10; ++i) {
+//        QStringList al;
+//        al << "name" + QString::number (i)
+//           << "phone" + QString::number (i)
+//           << "user" + QString::number (i) + "@email.com";
+//        QPair<QString, QString> res = Tools::convertData (m_currentTable, al);
+//        m_mongo->insert (m_currentTable.name (), res.first, res.second);
+//    }
+
+    m_content = m_mongo->getAllRows (m_currentTable.name ());
 }
 
 DataBaseQueryResultModel::~DataBaseQueryResultModel()
@@ -88,10 +90,30 @@ QVariant DataBaseQueryResultModel::data (const QModelIndex &index, int role) con
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole) {
-        QStringList aRow = Tools::restoreData (m_currentTable, m_content.at (row));
-        return aRow.at (column);
+    if (column >= m_currentTable.fields ().size () && column < 0) {
+        return QVariant();
     }
 
+    QStringList aRow = Tools::restoreData (m_currentTable, m_content.at (row));
+    return aRow.at (role);
+
     return QVariant();
+}
+
+QStringList DataBaseQueryResultModel::header () const
+{
+    QStringList result;
+    foreach (FieldEntity field, m_currentTable.fields ()) {
+        result << field.name ();
+    }
+    return result;
+}
+
+QHash<int, QByteArray> DataBaseQueryResultModel::roleNames () const
+{
+    QHash<int, QByteArray> roles;
+    for (int i = 0; i < m_currentTable.fields ().length (); ++i) {
+        roles[i] = m_currentTable.fields ().at (i).name ().toStdString ().c_str ();
+    }
+    return roles;
 }

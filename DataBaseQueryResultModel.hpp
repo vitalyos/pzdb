@@ -10,6 +10,7 @@ class MongoService;
 class DataBaseQueryResultModel : public QAbstractTableModel
 {
     Q_OBJECT
+    Q_PROPERTY(QStringList header READ header NOTIFY headerChanged)
 public:
     DataBaseQueryResultModel(QObject * aParent = 0);
     ~DataBaseQueryResultModel();
@@ -25,12 +26,18 @@ public:
     QVariant data (const QModelIndex &index, int role) const;
     QVariant headerData (int section, Qt::Orientation orientation, int role) const;
 
+    QStringList header () const;
+
 private:
     QStringList m_content;
     TableEntity m_currentTable;
     MongoService *m_mongo;
+
+protected:
+    QHash<int, QByteArray> roleNames () const;
 signals:
     void dataChanged ();
+    void headerChanged ();
 };
 
 #endif // DATABASEQUERYRESULTMODEL_HPP

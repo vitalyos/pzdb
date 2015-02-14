@@ -70,7 +70,32 @@ Window {
         TableView {
             id: table;
             model: qmodel;
+            anchors.fill: parent;
+            resources: {
+                var roleList = qmodel.header;
+                var temp = [];
+                for(var i = 0; i < roleList.length; ++i) {
+                    var role  = roleList[i]
+                    temp.push(tableHeaderElement.createObject(
+                                  table, {
+                                      "role": role,
+                                      "title": role,
+                                      "width": (root.width - dbstructure.width) / roleList.length
+                                  }
+                                  )
+                              );
+                }
+                return temp
+            }
         }
+
+        Component {
+            id: tableHeaderElement;
+            TableViewColumn {
+                resizable: true;
+            }
+        }
+
     }
 
     Controller {
