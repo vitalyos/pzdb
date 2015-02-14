@@ -48,9 +48,9 @@ HEADERS  += \
     databasemodel.h \
     DataBaseQueryResultModel.hpp
 
-unix:!macx: LIBS += -L$$PWD/../../tools/mongodriver/lib/ -lmongoclient -lboost_thread -lboost_system -lboost_regex -lssl -lcrypto -pthread -lboost_filesystem -lboost_program_options
+unix:!macx: LIBS += -L/home/zsvitalyos/tools/mongodriver/lib/ -lmongoclient -lboost_thread -lboost_system -lboost_regex -lssl -lcrypto -pthread -lboost_filesystem -lboost_program_options
 
-INCLUDEPATH += $$PWD/../../tools/mongodriver/include
-DEPENDPATH += $$PWD/../../tools/mongodriver/include
+INCLUDEPATH += /home/zsvitalyos/tools/mongodriver/include
+DEPENDPATH += /home/zsvitalyos/tools/mongodriver/include
 
-unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/mongodriver/lib/libmongoclient.a
+unix:!macx: PRE_TARGETDEPS += /home/zsvitalyos/tools/mongodriver/lib/libmongoclient.a
