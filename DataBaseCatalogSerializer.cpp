@@ -1,7 +1,7 @@
 #include "DataBaseCatalogSerializer.h"
 
 DataBaseCatalogSerializer::DataBaseCatalogSerializer(const QString fileName)
-    : m_Settings (fileName, QSettings::Format::NativeFormat)
+    : m_Settings (fileName, QSettings::NativeFormat)
 {
 }
 

@@ -10,8 +10,7 @@ QT += qml quick core
 
 RESOURCES += qml.qrc
 
-unix:!macx: LIBS += -lmongoclient -lboost_thread-mt -lboost_filesystem -lboost_program_options -lboost_system
-QMAKE_CXXFLAGS += -std=gnu++0x
+#QMAKE_CXXFLAGS += -std=gnu++0x
 
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -49,15 +48,9 @@ HEADERS  += \
     databasemodel.h \
     DataBaseQueryResultModel.hpp
 
-win32:CONFIG(release, debug|release): LIBS += -L/opt/mongodriver/lib/release/ -lmongoclient
-else:win32:CONFIG(debug, debug|release): LIBS += -L/opt/mongodriver/lib/debug/ -lmongoclient
-else:unix: LIBS += -L/opt/mongodriver/lib/ -lmongoclient
+unix:!macx: LIBS += -L$$PWD/../../tools/mongodriver/lib/ -lmongoclient -lboost_thread -lboost_system -lboost_regex -lssl -lcrypto -pthread -lboost_filesystem -lboost_program_options
 
-INCLUDEPATH += /opt/mongodriver/include
-DEPENDPATH += /opt/mongodriver/include
+INCLUDEPATH += $$PWD/../../tools/mongodriver/include
+DEPENDPATH += $$PWD/../../tools/mongodriver/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += /opt/mongodriver/lib/release/libmongoclient.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += /opt/mongodriver/lib/debug/libmongoclient.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += /opt/mongodriver/lib/release/mongoclient.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += /opt/mongodriver/lib/debug/mongoclient.lib
-else:unix: PRE_TARGETDEPS += /opt/mongodriver/lib/libmongoclient.a
+unix:!macx: PRE_TARGETDEPS += $$PWD/../../tools/mongodriver/lib/libmongoclient.a

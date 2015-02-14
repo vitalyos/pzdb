@@ -10,7 +10,8 @@ QHash<QString, QStringList> IndexingService::createInvertedIndex(const TableEnti
     QHash<QString, QStringList> ret;
     QStringList list = m_MongoService.getAllRows(table.name ());
     int primary = table.primaryIndex();
-    for (QString data : list) {
+//    for (QString data : list) {
+    foreach (QString data, list) {
         QStringList el  = Tools::restoreData(table, data);
         ret[el.at(fieldIndex)] << el.at(primary);
     }

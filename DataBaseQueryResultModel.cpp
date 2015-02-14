@@ -20,7 +20,7 @@ DataBaseQueryResultModel::DataBaseQueryResultModel(QObject *aParent)
         al << "name" + QString::number (i)
            << "phone" + QString::number (i)
            << "user" + QString::number (i) + "@email.com";
-        auto res = Tools::convertData (m_currentTable, al);
+        QPair<QString, QString> res = Tools::convertData (m_currentTable, al);
         m_mongo->insert (m_currentTable.name (), res.first, res.second);
     }
 }

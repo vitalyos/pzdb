@@ -92,7 +92,10 @@ QDataStream& operator >> (QDataStream &in, FieldEntity &fe)
 QDataStream& operator << (QDataStream &out,  const QList<FieldEntity> &fes)
 {
     out << fes.size ();
-    for (auto &fe : fes) {
+//    for (auto &fe : fes) {
+//        out << fe;
+//    }
+    foreach (FieldEntity fe, fes) {
         out << fe;
     }
     return out;

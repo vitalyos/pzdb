@@ -7,12 +7,18 @@
 #include "TableEntity.h"
 #include "DataBaseQueryResultModel.hpp"
 
+#include "mongo/client/dbclient.h"
+#include "mongo/client/init.h"
+
 void registeTypes ();
 
 int main(int argc, char *argv[])
 {
+    mongo::Status status = mongo::client::initialize ();
+    if (!status.isOK ()) {
+        abort ();
+    }
     QGuiApplication app(argc, argv);
-
     registeTypes();
 
     QQmlApplicationEngine engine;

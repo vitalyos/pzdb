@@ -71,7 +71,8 @@ QDataStream& operator << (QDataStream &out, const QList<TableEntity> &aList)
 {
     qDebug () << "..............." << aList.size ();
     out << aList.size();
-    for (auto &el : aList) {
+//    for (auto &el : aList) {
+    foreach (TableEntity el, aList) {
         out << el;
     }
     return out;

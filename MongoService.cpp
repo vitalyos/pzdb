@@ -2,7 +2,6 @@
 
 MongoService::MongoService()
 {
-    mongo::client::initialize ();
     try {
         m_ProjectName = "qoptim";
         m_Connection.connect("localhost");

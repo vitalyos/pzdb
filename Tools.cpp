@@ -11,7 +11,8 @@ QPair<QString, QString> Tools::convertData(const TableEntity &table, const QStri
     }
 
     int idx = 0;
-    for (QString d : data) {
+//    for (QString d : data) {
+    foreach (QString d, data) {
         FieldEntity fe = fs.at(idx);
         QString longString = d.leftJustified(fe.length(), ' ');
         if (fe.primary()) {
@@ -29,7 +30,8 @@ QStringList Tools::restoreData(const TableEntity &table, const QString &data)
     QList<FieldEntity> fs = table.fields();
     int from = 0;
 
-    for (FieldEntity fe : fs) {
+//    for (FieldEntity fe : fs) {
+    foreach (FieldEntity fe, fs) {
         int length = fe.length();
         retList << data.mid(from, length);
         from += length;

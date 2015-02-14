@@ -40,12 +40,13 @@ QVariant DatabaseModel::data(const QModelIndex &index, int role) const
     DataBaseEntity current = m_Content.at(idx);
 
     switch (role) {
-    case Roles::NAME_ROLE:
+    case NAME_ROLE:
         return current.name();
-    case Roles::TABLE_ROLE: {
+    case TABLE_ROLE: {
         qDebug () << "size" << current.tables().size();
         QStringList tbs;
-        for (auto &t : current.tables ()) {
+//        for (auto &t : current.tables ()) {
+        foreach (TableEntity t, current.tables ()) {
             tbs << t.name ();
         }
         qDebug () << tbs;
@@ -61,8 +62,8 @@ QHash<int, QByteArray> DatabaseModel::roleNames() const
 {
     QHash<int, QByteArray> ret;
 
-    ret[Roles::NAME_ROLE] = "name";
-    ret[Roles::TABLE_ROLE] = "tableModel";
+    ret[NAME_ROLE] = "name";
+    ret[TABLE_ROLE] = "tableModel";
 
     return ret;
 }
