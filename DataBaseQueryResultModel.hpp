@@ -30,6 +30,7 @@ public:
 
 public slots:
     void deleteRow (const QString aKey);
+    void addDataRow (const QStringList & aDataRow);
 private slots:
     void updateModelData ();
 

@@ -139,3 +139,10 @@ void DataBaseQueryResultModel::updateModelData ()
     m_tableKeys = m_mongo->getAllKeys (m_currentTable.name ());
     endResetModel ();
 }
+
+void DataBaseQueryResultModel::addDataRow (const QStringList &aDataRow)
+{
+    QPair<QString, QString> data = Tools::convertData (m_currentTable, aDataRow);
+    m_mongo->insert (m_currentTable.name (), data.first, data.second);
+    emit dataChanged ();
+}

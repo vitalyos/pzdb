@@ -25,3 +25,9 @@ void PZDBController::deleteRowByKey (const QString &aKey)
     emit deleteRow (aKey);
     qDebug () << "row with key deleted: " << aKey;
 }
+
+void PZDBController::insertRow (const QStringList &aDataRow)
+{
+    emit rowInserted (aDataRow);
+    qDebug() << "inserted" << aDataRow;
+}

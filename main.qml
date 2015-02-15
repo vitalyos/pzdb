@@ -12,6 +12,7 @@ Window {
 
     signal loadDatabaseCatalog ();
     signal deleteKey (var key);
+    signal insert(var data);
 
     Item {
         id: dbstructure
@@ -68,12 +69,53 @@ Window {
             id: qmodel;
         }
 
+        Item {
+            id: insertZone;
+            anchors.bottom: parent.bottom;
+            anchors.left: parent.left;
+            anchors.right: parent.right;
+            height: 50;
+            Row  {
+                id: editors;
+                anchors.left: parent.left;
+                anchors.right: addRow.left;
+                anchors.top: parent.top;
+                anchors.bottom: parent.bottom;
+
+                Component.onCompleted: createFields(qmodel.header.length - 1, editors, editArea);
+            }
+            Text {
+                id: addRow;
+                text: qsTr("+");
+                anchors.right: parent.right;
+                width: 50;
+                anchors.top: parent.top;
+                anchors.bottom: parent.bottom;
+                horizontalAlignment: Text.AlignHCenter;
+                verticalAlignment: Text.AlignVCenter;
+
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: {
+                        root.insert(collectFieldData(editors));
+                    }
+                }
+            }
+            Component {
+                id: editArea;
+                TextField {
+                    id: edit;
+                    height: 50;
+                }
+            }
+        }
+
         TableView {
             id: table;
             model: qmodel;
             anchors.top: parent.top;
             anchors.left: parent.left;
-            anchors.bottom: parent.bottom;
+            anchors.bottom: insertZone.top;
             anchors.right: parent.right;
             resources: updateTableHeader();
         }
@@ -116,14 +158,24 @@ Window {
         id: controller
     }
 
-    Component.onCompleted: {
-        // delete a row from table
-        root.deleteKey.connect(controller.deleteRowByKey);
-        controller.deleteRow.connect(qmodel.deleteRow);
+    Component.onCompleted: createConnections();
 
-        // database catalog
-        root.loadDatabaseCatalog.connect(controller.loadDatabaseCatalog);
-        root.loadDatabaseCatalog();
+    function collectFieldData (source) {
+        var data = [];
+        for (var i = 0; i < source.children.length; ++i) {
+            data.push(source.children[i].text);
+        }
+        return data;
+    }
+
+    function createFields (count, where, field) {
+        var limit = where.children.length;
+        for (var i = 0; i < limit; ++i) {
+            where.children[i].destroy();
+        }
+        for (var i = 0; i < count; ++i) {
+            field.createObject(where, {"width": tableHeaderSize(count + 1)});
+        }
     }
 
     function updateTableHeader() {
@@ -147,5 +199,19 @@ Window {
             "title": elementName,
             "width": tableHeaderSize(size)
         }
+    }
+
+    function createConnections () {
+        // delete a row from table
+        root.deleteKey.connect(controller.deleteRowByKey);
+        controller.deleteRow.connect(qmodel.deleteRow);
+
+        // database catalog
+        root.loadDatabaseCatalog.connect(controller.loadDatabaseCatalog);
+        root.loadDatabaseCatalog();
+
+        // insert row
+        root.insert.connect(controller.insertRow);
+        controller.rowInserted.connect(qmodel.addDataRow);
     }
 }
