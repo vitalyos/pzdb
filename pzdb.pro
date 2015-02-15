@@ -39,7 +39,6 @@ HEADERS  += \
     DataBaseEntity.h \
     TableEntity.h \
     FieldEntity.h \
-    Enumerator.h \
     DataBaseCatalogSerializer.h \
     PZDBController.h \
     MongoService.h \

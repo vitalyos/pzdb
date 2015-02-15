@@ -31,10 +31,11 @@ Window {
                         id: dbname
                         text: name
                     }
-                    height: dbname.height + 20 * tables.count
+                    height: dbname.height + 25 * tables.count
                     ListView {
                         id: tables
                         anchors.top: dbname.bottom
+
                         delegate: Component {
                             id: tableDelegate
                             Item {
@@ -45,10 +46,7 @@ Window {
                                 height: 40
                             }
                         }
-                        model: tableModel
-                        Component.onCompleted: {
-                            console.log(tables.count)
-                        }
+                        model: tableModel;
                     }
                 }
             }
