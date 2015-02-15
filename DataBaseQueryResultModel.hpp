@@ -28,8 +28,14 @@ public:
 
     QStringList header () const;
 
+public slots:
+    void deleteRow (const QString aKey);
+private slots:
+    void updateModelData ();
+
 private:
     QStringList m_content;
+    QStringList m_tableKeys;
     TableEntity m_currentTable;
     MongoService *m_mongo;
 

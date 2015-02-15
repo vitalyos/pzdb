@@ -5,12 +5,13 @@ import QtQuick.Controls 1.2
 import edu.bbte.pzdb 1.0
 
 Window {
-    id: root
-    visible: true
-    width: 1280
-    height: 720
+    id: root;
+    visible: true;
+    width: 1280;
+    height: 720;
 
     signal loadDatabaseCatalog ();
+    signal deleteKey (var key);
 
     Item {
         id: dbstructure
@@ -70,7 +71,10 @@ Window {
         TableView {
             id: table;
             model: qmodel;
-            anchors.fill: parent;
+            anchors.top: parent.top;
+            anchors.left: parent.left;
+            anchors.bottom: parent.bottom;
+            anchors.right: parent.right;
             resources: updateTableHeader();
         }
 
@@ -81,6 +85,31 @@ Window {
             }
         }
 
+        Component{
+            id: deleteHeader;
+            TableViewColumn {
+                width: 50;
+                title: "DEL";
+                role: "dbkey";
+                delegate: Component {
+                    id: delRoot;
+                    Item {
+                        id: delWrapper;
+                        Text {
+                            id: delText;
+                            text: qsTr("X");
+                        }
+                        MouseArea {
+                            anchors.fill: parent;
+                            onReleased: {
+                                root.deleteKey (styleData.value);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     Controller {
@@ -88,27 +117,35 @@ Window {
     }
 
     Component.onCompleted: {
-        root.loadDatabaseCatalog.connect(controller.loadDatabaseCatalog)
+        // delete a row from table
+        root.deleteKey.connect(controller.deleteRowByKey);
+        controller.deleteRow.connect(qmodel.deleteRow);
 
-        //        controller.databaseCatalogLoaded.connect()
-
+        // database catalog
+        root.loadDatabaseCatalog.connect(controller.loadDatabaseCatalog);
         root.loadDatabaseCatalog();
     }
 
     function updateTableHeader() {
         var roleList = qmodel.header;
         var temp = [];
-        for(var i = 0; i < roleList.length; ++i) {
+        for(var i = 0; i < roleList.length - 1; ++i) {
             var role  = roleList[i];
-            temp.push(tableHeaderElement.createObject(
-                          table, {
-                              "role": role,
-                              "title": role,
-                              "width": (root.width - dbstructure.width) / roleList.length
-                          }
-                          )
-                      );
+            temp.push(tableHeaderElement.createObject (table, createHeaderElement(role, roleList.length)));
         }
+        temp.push(deleteHeader.createObject(table,{}));
         return temp
+    }
+
+    function tableHeaderSize (size) {
+        return (root.width - dbstructure.width - 70) / (size - 1);
+    }
+
+    function createHeaderElement (elementName, size) {
+        return {
+            "role": elementName,
+            "title": elementName,
+            "width": tableHeaderSize(size)
+        }
     }
 }

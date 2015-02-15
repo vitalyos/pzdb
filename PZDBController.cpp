@@ -19,3 +19,9 @@ void PZDBController::loadDatabaseCatalog()
     emit databeseCatalogLoaded();
     qDebug () << "database catalog loaded";
 }
+
+void PZDBController::deleteRowByKey (const QString &aKey)
+{
+    emit deleteRow (aKey);
+    qDebug () << "row with key deleted: " << aKey;
+}

@@ -33,8 +33,21 @@ QStringList Tools::restoreData(const TableEntity &table, const QString &data)
 //    for (FieldEntity fe : fs) {
     foreach (FieldEntity fe, fs) {
         int length = fe.length();
-        retList << data.mid(from, length);
+        QString columnData = data.mid(from, length);
+        retList <<  clearData (columnData);
         from += length;
     }
+    qDebug () << retList;
     return retList;
+}
+
+QString Tools::clearData (const QString &aData)
+{
+    int idx = aData.length () - 1;
+    for (; idx >= 0; --idx) {
+        if (aData.at (idx) != ' ') {
+            break;
+        }
+    }
+    return aData.mid (0, idx + 1);
 }

@@ -17,9 +17,10 @@ private:
 
 public slots:
     void loadDatabaseCatalog ();
-
+    void deleteRowByKey (const QString & aKey);
 signals:
     void databeseCatalogLoaded ();
+    void deleteRow(const QString &aKey);
 };
 
 #endif // PZDBCONTROLLER_H

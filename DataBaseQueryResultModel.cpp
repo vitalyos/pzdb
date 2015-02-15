@@ -15,16 +15,18 @@ DataBaseQueryResultModel::DataBaseQueryResultModel(QObject *aParent)
 
     m_mongo = new MongoService;
 
-//    for (int i = 0; i < 10; ++i) {
-//        QStringList al;
-//        al << "name" + QString::number (i)
-//           << "phone" + QString::number (i)
-//           << "user" + QString::number (i) + "@email.com";
-//        QPair<QString, QString> res = Tools::convertData (m_currentTable, al);
-//        m_mongo->insert (m_currentTable.name (), res.first, res.second);
-//    }
-
-    m_content = m_mongo->getAllRows (m_currentTable.name ());
+#ifdef GENERATE_DATA
+    for (int i = 0; i < 101; ++i) {
+        QStringList al;
+        al << "name" + QString::number (i)
+           << "phone" + QString::number (i)
+           << "user" + QString::number (i) + "@email.com";
+        QPair<QString, QString> res = Tools::convertData (m_currentTable, al);
+        m_mongo->insert (m_currentTable.name (), res.first, res.second);
+    }
+#endif
+    connect (this, &DataBaseQueryResultModel::dataChanged, this, &DataBaseQueryResultModel::updateModelData);
+    emit dataChanged ();
 }
 
 DataBaseQueryResultModel::~DataBaseQueryResultModel()
@@ -94,6 +96,10 @@ QVariant DataBaseQueryResultModel::data (const QModelIndex &index, int role) con
         return QVariant();
     }
 
+    if (role == m_currentTable.fields ().size ()) {
+        return m_tableKeys.at (row);
+    }
+
     QStringList aRow = Tools::restoreData (m_currentTable, m_content.at (row));
     return aRow.at (role);
 
@@ -106,6 +112,7 @@ QStringList DataBaseQueryResultModel::header () const
     foreach (FieldEntity field, m_currentTable.fields ()) {
         result << field.name ();
     }
+    result << "dbkey";
     return result;
 }
 
@@ -115,5 +122,20 @@ QHash<int, QByteArray> DataBaseQueryResultModel::roleNames () const
     for (int i = 0; i < m_currentTable.fields ().length (); ++i) {
         roles[i] = m_currentTable.fields ().at (i).name ().toStdString ().c_str ();
     }
+    roles[m_currentTable.fields ().length ()] = "dbkey";
     return roles;
+}
+
+void DataBaseQueryResultModel::deleteRow (const QString aKey)
+{
+    m_mongo->remove (m_currentTable.name (), aKey);
+    emit dataChanged ();
+}
+
+void DataBaseQueryResultModel::updateModelData ()
+{
+    beginResetModel ();
+    m_content = m_mongo->getAllRows (m_currentTable.name ());
+    m_tableKeys = m_mongo->getAllKeys (m_currentTable.name ());
+    endResetModel ();
 }
