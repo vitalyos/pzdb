@@ -16,11 +16,11 @@ class DatabaseModel
 public:
     explicit DatabaseModel(QObject * parentObject = 0);
     ~DatabaseModel();
-    int rowCount(const QModelIndex &parent) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
 private:
     QList<DataBaseEntity> m_Content;
-    QHash<int, QByteArray> roleNames() const override;
+    QHash<int, QByteArray> roleNames() const;
 
     enum Roles {
         NAME_ROLE = 1,

@@ -11,6 +11,7 @@ class DataBaseQueryResultModel : public QAbstractTableModel
 {
     Q_OBJECT
     Q_PROPERTY(QStringList header READ header NOTIFY headerChanged)
+    Q_PROPERTY(QStringList lens READ lens NOTIFY lensChanged)
 public:
     DataBaseQueryResultModel(QObject * aParent = 0);
     ~DataBaseQueryResultModel();
@@ -27,6 +28,7 @@ public:
     QVariant headerData (int section, Qt::Orientation orientation, int role) const;
 
     QStringList header () const;
+    QStringList lens () const;
 
 public slots:
     void deleteRow (const QString aKey);
@@ -45,6 +47,7 @@ protected:
 signals:
     void dataChanged ();
     void headerChanged ();
+    void lensChanged ();
 };
 
 #endif // DATABASEQUERYRESULTMODEL_HPP

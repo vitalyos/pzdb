@@ -173,8 +173,13 @@ Window {
         for (var i = 0; i < limit; ++i) {
             where.children[i].destroy();
         }
-        for (var i = 0; i < count; ++i) {
-            field.createObject(where, {"width": tableHeaderSize(count + 1)});
+        var lengths = qmodel.lens;
+        console.log(lengths)
+        for (i = 0; i < count; ++i) {
+            field.createObject(where, {
+                                   "width": tableHeaderSize(count + 1),
+                                   "maximumLength": parseInt(lengths[i])
+                               });
         }
     }
 

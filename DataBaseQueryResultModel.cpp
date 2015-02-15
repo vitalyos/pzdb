@@ -2,6 +2,7 @@
 #include "Tools.h"
 #include "FieldEntity.h"
 #include "MongoService.h"
+#include <QList>
 
 DataBaseQueryResultModel::DataBaseQueryResultModel(QObject *aParent)
     : QAbstractTableModel (aParent)
@@ -145,4 +146,13 @@ void DataBaseQueryResultModel::addDataRow (const QStringList &aDataRow)
     QPair<QString, QString> data = Tools::convertData (m_currentTable, aDataRow);
     m_mongo->insert (m_currentTable.name (), data.first, data.second);
     emit dataChanged ();
+}
+
+QStringList DataBaseQueryResultModel::lens() const
+{
+    QStringList ret;
+    for (int i = 0; i < m_currentTable.fields ().size (); ++i) {
+        ret << QString::number (m_currentTable.fields ().at (i).length ());
+    }
+    return ret;
 }
