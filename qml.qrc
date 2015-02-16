@@ -3,5 +3,7 @@
         <file>main.qml</file>
         <file>FieldListView.qml</file>
         <file>TableListView.qml</file>
+        <file>DataBaseStructure.qml</file>
+        <file>CustomTableView.qml</file>
     </qresource>
 </RCC>
