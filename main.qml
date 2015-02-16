@@ -28,45 +28,18 @@ Window {
                 id: dbDelegate
                 Item {
                     Text {
-                        id: dbname
-                        text: name
+                        id: dbname;
+                        text: name;
+                        height: 25;
                     }
-                    height: dbname.height + 25 * tables.count
-                    ListView {
-                        id: tables
+                    height: dbname.height + tableList.height;
+
+                    TableListView {
+                        id: tableList;
+                        content: tableModel;
                         anchors.top: dbname.bottom;
                         anchors.left: parent.left;
-                        anchors.leftMargin: 50;
-                        height: parent.height;
-                        delegate: Component {
-                            id: tableDelegate
-                            Item {
-                                Text {
-                                    id: tname;
-                                    text: model.modelData.tableName;
-                                    Component.onCompleted: {
-                                        console.log(model.modelData.fields);
-                                    }
-                                }
-                                height: 25 + fieldListView.height;
-                                ListView {
-                                    id: fieldListView;
-                                    anchors.top: tname.bottom;
-                                    anchors.left: parent.left;
-                                    anchors.leftMargin: 50
-//                                    model: fields;
-//                                    height: fields.count * 25;
-                                    delegate: Component {
-                                        id: fdel;
-                                        Text {
-                                            id: fieldNameText;
-                                            text: model.modelData.fieldName;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        model: tableModel;
+                        anchors.leftMargin: 25;
                     }
                 }
             }

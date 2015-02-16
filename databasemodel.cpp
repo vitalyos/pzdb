@@ -11,7 +11,11 @@ DatabaseModel::DatabaseModel(QObject *parentObject)
     TableEntity *te11 = new TableEntity;
     TableEntity *te12 = new TableEntity;
     TableEntity *te13 = new TableEntity;
-    te11->setName ("t11");
+    QList<FieldEntity*>fes;
+    fes << new FieldEntity("fe1", 1, 10, true)
+        << new FieldEntity("fe2", 1, 10, false);
+    te11->setFields (fes);
+    te11->setName ("te11");
     te12->setName ("te12");
     te13->setName ("te13");
     tel1 << te11 << te12 << te13;

@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>FieldListView.qml</file>
+        <file>TableListView.qml</file>
     </qresource>
 </RCC>
