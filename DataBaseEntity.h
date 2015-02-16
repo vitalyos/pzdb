@@ -4,6 +4,7 @@
 #include <QList>
 #include <QString>
 #include <QDebug>
+#include <QMetaType>
 
 #include "TableEntity.h"
 
@@ -15,15 +16,11 @@ public:
     void setName(const QString &Name);
 
 
-    QList<TableEntity> tables() const;
-    void setTables(QList<TableEntity> tables);
+    QList<TableEntity*> tables() const;
+    void setTables(QList<TableEntity*> tables);
 
 private:
     QString m_Name;
-    QList<TableEntity> m_Tables;
+    QList<TableEntity*> m_Tables;
 };
-
-QDataStream& operator << (QDataStream &out,  const DataBaseEntity &dbe);
-QDataStream& operator >> (QDataStream &in, DataBaseEntity &dbe);
-
 #endif // DATABASEENTITY_H

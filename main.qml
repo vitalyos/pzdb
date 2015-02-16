@@ -34,16 +34,36 @@ Window {
                     height: dbname.height + 25 * tables.count
                     ListView {
                         id: tables
-                        anchors.top: dbname.bottom
-
+                        anchors.top: dbname.bottom;
+                        anchors.left: parent.left;
+                        anchors.leftMargin: 50;
+                        height: parent.height;
                         delegate: Component {
                             id: tableDelegate
                             Item {
                                 Text {
-                                    id: tableName
-                                    text: modelData
+                                    id: tname;
+                                    text: model.modelData.tableName;
+                                    Component.onCompleted: {
+                                        console.log(model.modelData.fields);
+                                    }
                                 }
-                                height: 40
+                                height: 25 + fieldListView.height;
+                                ListView {
+                                    id: fieldListView;
+                                    anchors.top: tname.bottom;
+                                    anchors.left: parent.left;
+                                    anchors.leftMargin: 50
+//                                    model: fields;
+//                                    height: fields.count * 25;
+                                    delegate: Component {
+                                        id: fdel;
+                                        Text {
+                                            id: fieldNameText;
+                                            text: model.modelData.fieldName;
+                                        }
+                                    }
+                                }
                             }
                         }
                         model: tableModel;
@@ -172,7 +192,6 @@ Window {
             where.children[i].destroy();
         }
         var lengths = qmodel.lens;
-        console.log(lengths)
         for (i = 0; i < count; ++i) {
             field.createObject(where, {
                                    "width": tableHeaderSize(count + 1),

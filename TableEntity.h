@@ -4,17 +4,20 @@
 #include <QString>
 #include <QList>
 #include <QDebug>
+#include <QObject>
 #include "FieldEntity.h"
 
-class TableEntity
+class TableEntity : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(QString tableName READ name NOTIFY nameChanged)
+    Q_PROPERTY(QVariant fields READ fields NOTIFY fieldsChanged)
 public:
-    TableEntity(const QString &name, const QList<FieldEntity> &fields);
-    TableEntity(const QString &name);
-    TableEntity();
+    TableEntity(QObject * aParent = 0);
 
-    QList<FieldEntity> fields () const;
-    void setFields (const QList<FieldEntity> &fields);
+    QVariant fields () const;
+    void setFields (QList<FieldEntity*> fields);
+    QList<FieldEntity*> flist() const;
 
     int primaryIndex () const;
 
@@ -23,14 +26,10 @@ public:
 
 private:
     QString m_Name;
-    QList<FieldEntity> m_Fields;
+    QList<FieldEntity*> m_Fields;
+signals:
+    void nameChanged ();
+    void fieldsChanged ();
 };
 
-QDataStream& operator << (QDataStream &out,  const TableEntity &te);
-QDataStream& operator >> (QDataStream &in, TableEntity &te);
-QDataStream& operator << (QDataStream &out, const QList<TableEntity> &aList);
-QDataStream& operator >> (QDataStream &in, QList<TableEntity> &aList);
-
-Q_DECLARE_METATYPE(TableEntity)
-Q_DECLARE_METATYPE(QList<TableEntity>)
 #endif // TABLEENTITY_H

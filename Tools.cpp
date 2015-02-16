@@ -1,10 +1,10 @@
 #include "Tools.h"
 
-QPair<QString, QString> Tools::convertData(const TableEntity &table, const QStringList &data)
+QPair<QString, QString> Tools::convertData(TableEntity * table, const QStringList &data)
 {
     QString key;
     QString value;
-    QList<FieldEntity> fs = table.fields();
+    QList<FieldEntity*> fs = table->flist ();
 
     if (data.size() !=  fs.size()) {
         qDebug () << "table !~ data";
@@ -13,9 +13,9 @@ QPair<QString, QString> Tools::convertData(const TableEntity &table, const QStri
     int idx = 0;
 //    for (QString d : data) {
     foreach (QString d, data) {
-        FieldEntity fe = fs.at(idx);
-        QString longString = d.leftJustified(fe.length(), ' ');
-        if (fe.primary()) {
+        FieldEntity *fe = fs.at(idx);
+        QString longString = d.leftJustified(fe->length(), ' ');
+        if (fe->primary()) {
             key.append(longString);
         }
         value.append(longString);
@@ -24,15 +24,15 @@ QPair<QString, QString> Tools::convertData(const TableEntity &table, const QStri
     return QPair<QString, QString>(key, value);
 }
 
-QStringList Tools::restoreData(const TableEntity &table, const QString &data)
+QStringList Tools::restoreData(TableEntity *table, const QString &data)
 {
     QStringList retList;
-    QList<FieldEntity> fs = table.fields();
+    QList<FieldEntity*> fs = table->flist ();
     int from = 0;
 
 //    for (FieldEntity fe : fs) {
-    foreach (FieldEntity fe, fs) {
-        int length = fe.length();
+    foreach (FieldEntity *fe, fs) {
+        int length = fe->length();
         QString columnData = data.mid(from, length);
         retList <<  clearData (columnData);
         from += length;

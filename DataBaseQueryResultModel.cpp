@@ -7,12 +7,13 @@
 DataBaseQueryResultModel::DataBaseQueryResultModel(QObject *aParent)
     : QAbstractTableModel (aParent)
 {
-    QList<FieldEntity> fs;
-    fs << FieldEntity("studentName", 0, 32, true)
-       << FieldEntity("phone", 0, 15)
-       << FieldEntity("mail", 0, 40);
-    m_currentTable.setName ("ExamPle");
-    m_currentTable.setFields (fs);
+    QList<FieldEntity*> fs;
+    fs << new FieldEntity("studentName", 0, 32, true)
+       << new FieldEntity("phone", 0, 15, false)
+       << new FieldEntity("mail", 0, 40, false);
+    m_currentTable = new TableEntity;
+    m_currentTable->setName ("ExamPle");
+    m_currentTable->setFields (fs);
 
     m_mongo = new MongoService;
 
@@ -43,12 +44,12 @@ void DataBaseQueryResultModel::setContent(const QStringList &content)
 {
     m_content = content;
 }
-TableEntity DataBaseQueryResultModel::currentTable() const
+TableEntity *DataBaseQueryResultModel::currentTable() const
 {
     return m_currentTable;
 }
 
-void DataBaseQueryResultModel::setCurrentTable(const TableEntity &currentTable)
+void DataBaseQueryResultModel::setCurrentTable(TableEntity *currentTable)
 {
     m_currentTable = currentTable;
 }
@@ -62,7 +63,7 @@ int DataBaseQueryResultModel::rowCount (const QModelIndex &parent) const
 int DataBaseQueryResultModel::columnCount (const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return m_currentTable.fields ().size ();
+    return m_currentTable->flist ().size ();
 }
 
 QVariant DataBaseQueryResultModel::headerData (int section, Qt::Orientation orientation, int role) const
@@ -71,10 +72,10 @@ QVariant DataBaseQueryResultModel::headerData (int section, Qt::Orientation orie
         return QVariant();
     }
     if (orientation == Qt::Horizontal) {
-        if (section >= m_currentTable.fields ().size ()) {
+        if (section >= m_currentTable->flist ().size ()) {
             return QVariant();
         } else {
-            return m_currentTable.fields ().at (section).name ();
+            return m_currentTable->flist ().at (section)->name ();
         }
     }
     return QVariant();
@@ -93,11 +94,11 @@ QVariant DataBaseQueryResultModel::data (const QModelIndex &index, int role) con
         return QVariant();
     }
 
-    if (column >= m_currentTable.fields ().size () && column < 0) {
+    if (column >= m_currentTable->flist ().size () && column < 0) {
         return QVariant();
     }
 
-    if (role == m_currentTable.fields ().size ()) {
+    if (role == m_currentTable->flist ().size ()) {
         return m_tableKeys.at (row);
     }
 
@@ -110,8 +111,8 @@ QVariant DataBaseQueryResultModel::data (const QModelIndex &index, int role) con
 QStringList DataBaseQueryResultModel::header () const
 {
     QStringList result;
-    foreach (FieldEntity field, m_currentTable.fields ()) {
-        result << field.name ();
+    foreach (FieldEntity *field, m_currentTable->flist ()) {
+        result << field->name ();
     }
     result << "dbkey";
     return result;
@@ -120,39 +121,39 @@ QStringList DataBaseQueryResultModel::header () const
 QHash<int, QByteArray> DataBaseQueryResultModel::roleNames () const
 {
     QHash<int, QByteArray> roles;
-    for (int i = 0; i < m_currentTable.fields ().length (); ++i) {
-        roles[i] = m_currentTable.fields ().at (i).name ().toStdString ().c_str ();
+    for (int i = 0; i < m_currentTable->flist ().length (); ++i) {
+        roles[i] = m_currentTable->flist ().at (i)->name ().toStdString ().c_str ();
     }
-    roles[m_currentTable.fields ().length ()] = "dbkey";
+    roles[m_currentTable->flist ().length ()] = "dbkey";
     return roles;
 }
 
 void DataBaseQueryResultModel::deleteRow (const QString aKey)
 {
-    m_mongo->remove (m_currentTable.name (), aKey);
+    m_mongo->remove (m_currentTable->name (), aKey);
     emit dataChanged ();
 }
 
 void DataBaseQueryResultModel::updateModelData ()
 {
     beginResetModel ();
-    m_content = m_mongo->getAllRows (m_currentTable.name ());
-    m_tableKeys = m_mongo->getAllKeys (m_currentTable.name ());
+    m_content = m_mongo->getAllRows (m_currentTable->name ());
+    m_tableKeys = m_mongo->getAllKeys (m_currentTable->name ());
     endResetModel ();
 }
 
 void DataBaseQueryResultModel::addDataRow (const QStringList &aDataRow)
 {
     QPair<QString, QString> data = Tools::convertData (m_currentTable, aDataRow);
-    m_mongo->insert (m_currentTable.name (), data.first, data.second);
+    m_mongo->insert (m_currentTable->name (), data.first, data.second);
     emit dataChanged ();
 }
 
 QStringList DataBaseQueryResultModel::lens() const
 {
     QStringList ret;
-    for (int i = 0; i < m_currentTable.fields ().size (); ++i) {
-        ret << QString::number (m_currentTable.fields ().at (i).length ());
+    for (int i = 0; i < m_currentTable->flist ().size (); ++i) {
+        ret << QString::number (m_currentTable->flist ().at (i)->length ());
     }
     return ret;
 }

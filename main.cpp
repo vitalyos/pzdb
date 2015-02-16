@@ -33,9 +33,9 @@ void registeTypes()
     qmlRegisterType<DatabaseModel>("edu.bbte.pzdb", 1, 0, "DatabaseModel");
     qmlRegisterType<DataBaseQueryResultModel>("edu.bbte.pzdb", 1, 0, "DataBaseQueryResultModel");
 
-    qRegisterMetaType<TableEntity>("TableEntity");
-    qRegisterMetaType< QList<TableEntity> >("QList<TableEntity>");
+//    qRegisterMetaType<TableEntity>("TableEntity");
+//    qRegisterMetaType<QList<TableEntity> >("QList<TableEntity>");
 
-    qRegisterMetaTypeStreamOperators<TableEntity>("TableEntity");
-    qRegisterMetaTypeStreamOperators< QList<TableEntity> >("QList<TableEntity>");
+//    qRegisterMetaTypeStreamOperators<TableEntity>("TableEntity");
+//    qRegisterMetaTypeStreamOperators<QList<TableEntity> >("QList<TableEntity>");
 }

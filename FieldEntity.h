@@ -3,14 +3,17 @@
 #include <QString>
 #include <QList>
 #include <QDebug>
-#include "Enumerator.h"
-
+#include <QObject>
 class FieldEntity
+        : public QObject
 {
+    Q_OBJECT
+    Q_PROPERTY(int fieldType READ fieldType  NOTIFY fieldTypeChanged)
+    Q_PROPERTY(int length READ length  NOTIFY lengthChanged)
+    Q_PROPERTY(bool primary READ primary NOTIFY primaryChanged)
+    Q_PROPERTY(QString fieldName READ name NOTIFY nameChanged)
 public:
-    FieldEntity(const QString &name, const quint8 &type, const quint32 &length, bool primary = false);
-    FieldEntity();
-    FieldEntity(const FieldEntity &other);
+    FieldEntity (const QString &name, const quint8 &type, const quint32 &length, const bool &primary, QObject * aParent = 0);
 
     quint8 fieldType () const;
     quint32 length () const;
@@ -28,17 +31,11 @@ private:
     quint32 m_Lenght;
     bool m_Primary;
     QString m_Name;
+signals:
+    void fieldTypeChanged ();
+    void lengthChanged ();
+    void primaryChanged ();
+    void nameChanged ();
 };
-
-
-QDataStream& operator << (QDataStream &out,  const FieldEntity &fe);
-QDataStream& operator >> (QDataStream &in, FieldEntity &fe);
-
-QDataStream& operator << (QDataStream &out,  const QList<FieldEntity> &fes);
-QDataStream& operator >> (QDataStream &in, QList<FieldEntity> &fe);
-
-
-Q_DECLARE_METATYPE (FieldEntity)
-Q_DECLARE_METATYPE (QList<FieldEntity>)
 
 #endif // FIELDENTITY_H

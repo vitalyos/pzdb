@@ -10,8 +10,8 @@
 class Tools
 {
 public:
-     static QPair<QString, QString> convertData(const TableEntity &table, const QStringList &data);
-     static QStringList restoreData (const TableEntity &table, const QString & data);
+     static QPair<QString, QString> convertData(TableEntity * table, const QStringList &data);
+     static QStringList restoreData (TableEntity * table, const QString & data);
 private:
      static QString clearData (const QString &aData);
 };

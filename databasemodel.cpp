@@ -7,8 +7,14 @@ DatabaseModel::DatabaseModel(QObject *parentObject)
     : QAbstractListModel (parentObject)
 {
     DataBaseEntity d1("University");
-    QList<TableEntity> tel1;
-    tel1 << TableEntity("t11") << TableEntity("t12") << TableEntity("t13");
+    QList<TableEntity*> tel1;
+    TableEntity *te11 = new TableEntity;
+    TableEntity *te12 = new TableEntity;
+    TableEntity *te13 = new TableEntity;
+    te11->setName ("t11");
+    te12->setName ("te12");
+    te13->setName ("te13");
+    tel1 << te11 << te12 << te13;
     d1.setTables(tel1);
     m_Content << d1
               << DataBaseEntity("Life")
@@ -43,16 +49,12 @@ QVariant DatabaseModel::data(const QModelIndex &index, int role) const
     case NAME_ROLE:
         return current.name();
     case TABLE_ROLE: {
-        qDebug () << "size" << current.tables().size();
-        QStringList tbs;
-//        for (auto &t : current.tables ()) {
-        foreach (TableEntity t, current.tables ()) {
-            tbs << t.name ();
+        QList<QObject*> ret;
+        foreach (TableEntity *te, current.tables ()) {
+            ret << te;
         }
-        qDebug () << tbs;
-        return QVariant::fromValue(tbs);
+        return QVariant::fromValue(ret);
     }
-        //return QVariant::fromValue(current.tables());
     default:
         return QVariant();
     }

@@ -18,8 +18,8 @@ public:
     QStringList content() const;
     void setContent(const QStringList &content);
 
-    TableEntity currentTable() const;
-    void setCurrentTable(const TableEntity &currentTable);
+    TableEntity* currentTable() const;
+    void setCurrentTable(TableEntity * currentTable);
 
     int rowCount (const QModelIndex &parent) const;
     int columnCount (const QModelIndex &parent) const;
@@ -39,7 +39,7 @@ private slots:
 private:
     QStringList m_content;
     QStringList m_tableKeys;
-    TableEntity m_currentTable;
+    TableEntity* m_currentTable;
     MongoService *m_mongo;
 
 protected:

@@ -32,7 +32,7 @@ SOURCES += main.cpp\
     Tools.cpp \
     IndexingService.cpp \
     databasemodel.cpp \
-    DataBaseQueryResultModel.cpp
+    DataBaseQueryResultModel.cpp \
 
 HEADERS  += \
     Role.h \
@@ -45,7 +45,7 @@ HEADERS  += \
     Tools.h \
     IndexingService.h \
     databasemodel.h \
-    DataBaseQueryResultModel.hpp
+    DataBaseQueryResultModel.hpp \
 
 unix:!macx: LIBS += -L/home/zsvitalyos/tools/mongodriver/lib/ -lmongoclient -lboost_thread -lboost_system -lboost_regex -lssl -lcrypto -pthread -lboost_filesystem -lboost_program_options
 

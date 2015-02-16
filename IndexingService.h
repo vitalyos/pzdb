@@ -10,7 +10,7 @@ class IndexingService
 {
 public:
     IndexingService();
-    QHash<QString, QStringList> createInvertedIndex (const TableEntity &table, const int &fieldIndex);
+    QHash<QString, QStringList> createInvertedIndex (TableEntity * table, const int &fieldIndex);
 private:
     MongoService m_MongoService;
 };

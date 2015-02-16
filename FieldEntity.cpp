@@ -1,28 +1,11 @@
 #include "FieldEntity.h"
 
-FieldEntity::FieldEntity(const QString &name, const quint8 &type, const quint32 &length, bool primary)
-    : m_Name (name),
+FieldEntity::FieldEntity(const QString &name, const quint8 &type, const quint32 &length, const bool &primary, QObject * aParent)
+    : QObject (aParent),
       m_Type (type),
       m_Lenght (length),
-      m_Primary (primary)
-{
-    qRegisterMetaType<FieldEntity>("FieldEntity");
-    qRegisterMetaType< QList<FieldEntity> >("QList<FieldEntity>");
-
-    qRegisterMetaTypeStreamOperators<FieldEntity>("FieldEntity");
-    qRegisterMetaTypeStreamOperators< QList<FieldEntity> >("QList<FieldEntity>");
-}
-
-FieldEntity::FieldEntity ()
-    : FieldEntity (QString(), 0, 24, false)
-{
-}
-
-FieldEntity::FieldEntity(const FieldEntity &other)
-    : m_Name (other.name ()),
-      m_Type (other.fieldType()),
-      m_Lenght (other.length()),
-      m_Primary (other.primary())
+      m_Primary (primary),
+      m_Name (name)
 {
 }
 
@@ -39,6 +22,7 @@ bool FieldEntity::primary() const
 void FieldEntity::setPrimary(const bool &primary)
 {
     m_Primary = primary;
+    emit primaryChanged ();
 }
 QString FieldEntity::name() const
 {
@@ -48,12 +32,14 @@ QString FieldEntity::name() const
 void FieldEntity::setName(const QString &name)
 {
     m_Name = name;
+    emit nameChanged ();
 }
 
 
 void FieldEntity::setFieldType(const quint8 &type)
 {
     m_Type = type;
+    emit fieldTypeChanged ();
 }
 
 quint32 FieldEntity::length() const
@@ -64,51 +50,5 @@ quint32 FieldEntity::length() const
 void FieldEntity::setLength(const quint32 &length)
 {
     m_Lenght = length;
-}
-
-QDataStream& operator << (QDataStream &out,  const FieldEntity &fe)
-{
-    out << fe.name ()
-        << fe.fieldType()
-        << fe.length()
-        << fe.primary();
-    return out;
-}
-
-QDataStream& operator >> (QDataStream &in, FieldEntity &fe)
-{
-    QString text;
-    quint8 type;
-    quint32 length;
-    bool primary;
-    in >> text >> type >> length >> primary;
-    fe.setName (text);
-    fe.setFieldType(type);
-    fe.setLength(length);
-    fe.setPrimary(primary);
-    return in;
-}
-
-QDataStream& operator << (QDataStream &out,  const QList<FieldEntity> &fes)
-{
-    out << fes.size ();
-//    for (auto &fe : fes) {
-//        out << fe;
-//    }
-    foreach (FieldEntity fe, fes) {
-        out << fe;
-    }
-    return out;
-}
-
-QDataStream& operator >> (QDataStream &in, QList<FieldEntity> &fe)
-{
-    int size;
-    in >> size;
-    for (int i = 0; i < size; ++i) {
-        FieldEntity aEnt;
-        in >> aEnt;
-        fe << aEnt;
-    }
-    return in;
+    emit lengthChanged ();
 }
