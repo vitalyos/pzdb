@@ -44,7 +44,7 @@ Item {
         Text {
             id: backBtn;
             text: qsTr("<-");
-            width: 50;
+            width: 35;
             height: parent.height;
             anchors.top: parent.top;
             anchors.left: parent.left;
