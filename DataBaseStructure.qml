@@ -11,7 +11,6 @@ Item {
         anchors.top: parent.top;
         anchors.left: parent.left;
         height: parent.height;
-        z: 100;
         delegate: Component {
             id: dbDelegate;
             Item {
@@ -38,7 +37,6 @@ Item {
     Item {
         id: tables;
         visible: false;
-        z: 200;
         anchors.top: parent.top;
         anchors.left: parent.left;
         width: parent.width;

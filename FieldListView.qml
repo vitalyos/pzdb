@@ -12,14 +12,11 @@ Item {
             id: fdel;
             Item {
                 id: fieldWrapperItem;
+                height: fieldNameText.height;
                 Text {
                     id: fieldNameText;
                     text: model.modelData.fieldName;
                     height: 25;
-                }
-                Component.onCompleted: {
-                    fieldRoot.height = fieldNameText.height
-                    console.log("fields", fieldNameText.text, fieldRoot.height);
                 }
             }
         }
