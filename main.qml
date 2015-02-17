@@ -30,7 +30,6 @@ Window {
         content: dbsModel;
         anchors.top: parent.top;
         anchors.left: parent.left;
-        height: root.height;
     }
 
     CustomTableView {

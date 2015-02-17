@@ -4,36 +4,74 @@ Item {
     id: dbstructure;
     property alias content: databases.model;
     width: 200;
+    height: 25 * databases.count;
 
     ListView {
         id: databases;
         anchors.top: parent.top;
         anchors.left: parent.left;
+        height: parent.height;
+        z: 100;
         delegate: Component {
             id: dbDelegate;
             Item {
                 id: dbWrapperItem;
-                height: dbname.height + tableList.height;
+                height: dbname.height;
                 Text {
                     id: dbname;
                     text: name;
                     height: 25;
+                    MouseArea {
+                        id: dbElementClick;
+                        anchors.fill: parent;
+                        onClicked: {
+                            changeFields();
+                            tableList.content = tableModel;
+                        }
+                    }
                 }
 
-                TableListView {
-                    id: tableList;
-                    content: tableModel;
-                    anchors.top: dbname.bottom;
-                    anchors.left: parent.left;
-                    anchors.leftMargin: 25;
-                }
+            }
+        }
+    }
 
-                Component.onCompleted: {
-                    databases.height = (dbname.height + tableList.height) * databases.count;
-                    console.log("dbs:", dbname.text, databases.height)
+    Item {
+        id: tables;
+        visible: false;
+        z: 200;
+        anchors.top: parent.top;
+        anchors.left: parent.left;
+        width: parent.width;
+        height: parent.height;
+        Text {
+            id: backBtn;
+            text: qsTr("<-");
+            width: 50;
+            height: parent.height;
+            anchors.top: parent.top;
+            anchors.left: parent.left;
+            verticalAlignment: Text.AlignVCenter;
+            horizontalAlignment: Text.AlignHCenter;
+
+            MouseArea {
+                id: backBtnClick;
+                anchors.fill: parent;
+                onClicked: {
+                    changeFields();
+                    tableList.content = null;
                 }
             }
         }
+        TableListView {
+            id: tableList;
+            anchors.top: parent.top;
+            anchors.left: backBtn.right;
+        }
+    }
+
+    function changeFields () {
+        tables.visible = !tables.visible;
+        databases.visible = !databases.visible;
     }
 }
 
