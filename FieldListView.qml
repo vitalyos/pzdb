@@ -3,6 +3,7 @@ import QtQuick 2.0
 Item {
     id: fieldRoot;
     property alias content: fieldListView.model;
+    height: fieldListView.count * 25;
     ListView {
         id: fieldListView;
         anchors.top: parent.top;
@@ -15,7 +16,9 @@ Item {
                 height: fieldNameText.height;
                 Text {
                     id: fieldNameText;
-                    text: model.modelData.fieldName;
+                    text: model.modelData.fieldName
+                          + (model.modelData.primary ? "(PK)" : "")
+                          + ":" + model.modelData.length;
                     height: 25;
                 }
             }

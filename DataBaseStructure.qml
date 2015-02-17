@@ -3,7 +3,7 @@ import QtQuick 2.0
 Item {
     id: dbstructure;
     property alias content: databases.model;
-    width: 300;
+    width: 350;
     height: 25 * databases.count;
 
     ListView {
