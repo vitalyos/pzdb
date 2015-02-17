@@ -28,9 +28,9 @@ Window {
     DataBaseStructure {
         id: databaseTree;
         content: dbsModel;
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
+        anchors.top: parent.top;
+        anchors.left: parent.left;
+        height: root.height;
     }
 
     CustomTableView {

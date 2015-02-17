@@ -1,22 +1,24 @@
 import QtQuick 2.0
 
 Item {
-    id: dbstructure
+    id: dbstructure;
     property alias content: databases.model;
-    width: 200
+    width: 200;
 
     ListView {
         id: databases;
-        anchors.fill: parent;
+        anchors.top: parent.top;
+        anchors.left: parent.left;
         delegate: Component {
             id: dbDelegate;
             Item {
+                id: dbWrapperItem;
+                height: dbname.height + tableList.height;
                 Text {
                     id: dbname;
                     text: name;
                     height: 25;
                 }
-                height: dbname.height + tableList.height;
 
                 TableListView {
                     id: tableList;
@@ -24,6 +26,11 @@ Item {
                     anchors.top: dbname.bottom;
                     anchors.left: parent.left;
                     anchors.leftMargin: 25;
+                }
+
+                Component.onCompleted: {
+                    databases.height = (dbname.height + tableList.height) * databases.count;
+                    console.log("dbs:", dbname.text, databases.height)
                 }
             }
         }

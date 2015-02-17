@@ -37,7 +37,7 @@ QStringList Tools::restoreData(TableEntity *table, const QString &data)
         retList <<  clearData (columnData);
         from += length;
     }
-    qDebug () << retList;
+//    qDebug () << retList;
     return retList;
 }
 

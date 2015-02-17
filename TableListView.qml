@@ -1,12 +1,13 @@
 import QtQuick 2.0
 
 Item {
-    id: root;
+    id: tableListRoot;
     property alias content: tables.model;
-    height: tables.height;
     ListView {
         id: tables;
-        height: (content.length + 1) * 25
+        height: tableListRoot.height;
+        anchors.top: parent.tpo;
+        anchors.left: parent.left;
         delegate: Component {
             id: tableDelegate;
             Item {
@@ -23,9 +24,16 @@ Item {
                     anchors.top: tname.bottom;
                     anchors.left: parent.left;
                     anchors.leftMargin: 25;
+
+                    Component.onCompleted: {
+                        console.log ("flv", tname.text, fieldListView.height)
+                    }
+                }
+                Component.onCompleted: {
+                    tableListRoot.height = (tname.height + fieldListView.height) * tables.count;
+                    console.log("tabs", tname.text, tableListRoot.height);
                 }
             }
         }
     }
 }
-

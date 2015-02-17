@@ -1,22 +1,26 @@
 import QtQuick 2.0
 
 Item {
-    id: root;
+    id: fieldRoot;
     property alias content: fieldListView.model;
-    height: fieldListView.height;
     ListView {
         id: fieldListView;
-        anchors.fill: parent;
-        height: content.length * 25;
+        anchors.top: parent.top;
+        anchors.left: parent.left;
+        height: fieldRoot.height;
         delegate: Component {
             id: fdel;
             Item {
+                id: fieldWrapperItem;
                 Text {
                     id: fieldNameText;
                     text: model.modelData.fieldName;
                     height: 25;
                 }
-                height: fieldNameText.height;
+                Component.onCompleted: {
+                    fieldRoot.height = fieldNameText.height
+                    console.log("fields", fieldNameText.text, fieldRoot.height);
+                }
             }
         }
     }
