@@ -54,9 +54,11 @@ Item {
         anchors.left: parent.left;
         anchors.bottom: insertZone.top;
         anchors.right: parent.right;
-        resources: updateTableHeader();
-        onRowCountChanged: createFields(qmodel.header.length - 1, editors, editArea);
-        onColumnCountChanged: createFields(qmodel.header.length - 1, editors, editArea);
+
+        onRowCountChanged: {
+            updateTableHeader();
+            createFields(qmodel.header.length - 1, editors, editArea);
+        }
     }
 
     Component {
@@ -115,13 +117,16 @@ Item {
 
     function updateTableHeader() {
         var roleList = qmodel.header;
-        var temp = [];
-        for(var i = 0; i < roleList.length - 1; ++i) {
-            var role  = roleList[i];
-            temp.push(tableHeaderElement.createObject (table, createHeaderElement(role, roleList.length)));
+        var lim = table.columnCount;
+        for (var i = 0; i < lim; ++i) {
+            table.removeColumn(0);
         }
-        temp.push(deleteHeader.createObject(table,{}));
-        return temp
+
+        for(i = 0; i < roleList.length - 1; ++i) {
+            var role  = roleList[i];
+            table.insertColumn (i, tableHeaderElement.createObject (table, createHeaderElement(role, roleList.length)));
+        }
+        table.insertColumn (roleList.length - 1, deleteHeader.createObject(table,{}));
     }
 
     function tableHeaderSize (size) {

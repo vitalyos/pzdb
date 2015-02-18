@@ -119,3 +119,12 @@ void DatabaseModel::changeCurrentDatabase (const QString &dbName)
         emit currentDbChanged (dbName);
     }
 }
+
+void DatabaseModel::changeCurrentTable (const QString &tableName)
+{
+    int idx = m_Content.at (m_currentDatabaseIndex).getIndexByName (tableName);
+    if (idx != -1) {
+        QObject *table = m_Content.at (m_currentDatabaseIndex).tables ().at (idx);
+        emit currentTableChanged (table);
+    }
+}

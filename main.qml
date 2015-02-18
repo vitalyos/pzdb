@@ -70,5 +70,6 @@ Window {
         root.dropDb.connect(dbsModel.dropDatabase);
         root.createDb.connect(dbsModel.createDatabase);
         root.currentDbChanged.connect(dbsModel.changeCurrentDatabase);
+        root.currentTableChanged.connect(dbsModel.changeCurrentTable);
     }
 }

@@ -52,6 +52,7 @@ TableEntity *DataBaseQueryResultModel::currentTable() const
 void DataBaseQueryResultModel::setCurrentTable(TableEntity *currentTable)
 {
     m_currentTable = currentTable;
+    emit dataChanged ();
 }
 
 int DataBaseQueryResultModel::rowCount (const QModelIndex &parent) const
@@ -162,9 +163,10 @@ void DataBaseQueryResultModel::changeCurrentTable (QObject *aTable)
 {
     TableEntity *t = (TableEntity*)aTable;
     qDebug () << t->name ();
+    setCurrentTable (t);
 }
 
 void DataBaseQueryResultModel::changeCurrentDb (const QString dbName)
 {
-    m_currentDbName = dbName
+    m_currentDbName = dbName;
 }

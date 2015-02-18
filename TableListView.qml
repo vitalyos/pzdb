@@ -1,10 +1,27 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.3;
 
 Item {
     id: tableListRoot;
     property alias content: tables.model;
     width: parent.width;
     height: 25 * tables.count;
+
+    Menu {
+        id: dbMenu;
+        visible: true;
+        title: "tables";
+        MenuItem {
+            id: createDb;
+            text: "create table";
+            onTriggered: createDbView();
+        }
+        MenuItem {
+            id: dropDb;
+            text: "drop table";
+            onTriggered: root.dropDb(dbname.text);
+        }
+    }
 
     ListView {
         id: tables;
@@ -25,8 +42,15 @@ Item {
                         id: tableClick;
                         anchors.fill: parent;
                         onClicked: {
-                            changeFields();
-                            fieldListView.content = model.modelData.fields;
+                            acceptedButtons = Qt.LeftButton | Qt.RightButton;
+                            if (mouse.button == Qt.LeftButton) {
+                                changeFields();
+                                fieldListView.content = model.modelData.fields;
+                                root.currentTableChanged(tname.text);
+                            }
+                            if (mouse.button == Qt.RightButton) {
+
+                            }
                         }
                     }
                 }
