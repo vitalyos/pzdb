@@ -33,3 +33,11 @@ int DataBaseEntity::getIndexByName (const QString &tableName) const
     }
     return -1;
 }
+
+void DataBaseEntity::removeTable (const QString &tableName)
+{
+    int idx = getIndexByName (tableName);
+    if (idx != -1) {
+        m_Tables.removeAt (idx);
+    }
+}

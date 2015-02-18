@@ -20,7 +20,7 @@ public:
     void setTables(QList<TableEntity*> tables);
 
     int getIndexByName (const QString &tableName) const;
-
+    void removeTable (const QString &tableName);
 private:
     QString m_Name;
     QList<TableEntity*> m_Tables;

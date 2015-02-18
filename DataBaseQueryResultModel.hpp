@@ -37,7 +37,7 @@ public slots:
     void changeCurrentDb (const QString dbName);
 private slots:
     void updateModelData ();
-
+    void reindexCurrentTable ();
 private:
     QStringList m_content;
     QStringList m_tableKeys;

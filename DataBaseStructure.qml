@@ -32,7 +32,7 @@ Item {
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
-                    root.createDb(edit.text);
+                    root.dbCreated(edit.text);
                     resetDbView();
                 }
             }
@@ -93,7 +93,7 @@ Item {
                         MenuItem {
                             id: dropDb;
                             text: "dropDb";
-                            onTriggered: root.dropDb(dbname.text);
+                            onTriggered: root.dbDroped(dbname.text);
                         }
                     }
                 }
@@ -146,7 +146,7 @@ Item {
 
     function resetDbView () {
         createDbFieldComp.visible = false;
-        createDbFieldComp.edit.text = "";
+        edit.text = "";
     }
 }
 

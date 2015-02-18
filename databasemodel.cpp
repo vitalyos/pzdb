@@ -128,3 +128,15 @@ void DatabaseModel::changeCurrentTable (const QString &tableName)
         emit currentTableChanged (table);
     }
 }
+
+void DatabaseModel::createTable (const QString &name, const QList<QStringList> &body)
+{
+
+}
+
+void DatabaseModel::dropTable (const QString &name)
+{
+    beginResetModel ();
+    m_Content[m_currentDatabaseIndex].removeTable (name);
+    endResetModel ();
+}

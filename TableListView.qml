@@ -7,22 +7,6 @@ Item {
     width: parent.width;
     height: 25 * tables.count;
 
-    Menu {
-        id: dbMenu;
-        visible: true;
-        title: "tables";
-        MenuItem {
-            id: createDb;
-            text: "create table";
-            onTriggered: createDbView();
-        }
-        MenuItem {
-            id: dropDb;
-            text: "drop table";
-            onTriggered: root.dropDb(dbname.text);
-        }
-    }
-
     ListView {
         id: tables;
         height: tableListRoot.height;
@@ -41,16 +25,31 @@ Item {
                     MouseArea {
                         id: tableClick;
                         anchors.fill: parent;
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton;
                         onClicked: {
-                            acceptedButtons = Qt.LeftButton | Qt.RightButton;
                             if (mouse.button == Qt.LeftButton) {
                                 changeFields();
                                 fieldListView.content = model.modelData.fields;
                                 root.currentTableChanged(tname.text);
                             }
                             if (mouse.button == Qt.RightButton) {
-
+                                tableMenu.popup();
                             }
+                        }
+                    }
+
+                    Menu {
+                        id: tableMenu;
+                        visible: true;
+                        title: "tables";
+                        MenuItem {
+                            id: createT;
+                            text: "create table";
+                        }
+                        MenuItem {
+                            id: dropT;
+                            text: "drop table";
+                            onTriggered: root.tableDroped(tname.text);
                         }
                     }
                 }

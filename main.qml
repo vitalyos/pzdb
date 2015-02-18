@@ -13,11 +13,17 @@ Window {
     signal deleteKey (var key);
     signal insert(var data);
 
-    signal dropDb(var dbName);
-    signal createDb(var dbName);
+    // drop
+    signal dbDroped(var dbName);
+    signal tableDroped(var tableName);
+
+    // change
     signal currentDbChanged(var dbName);
     signal currentTableChanged (var tableName);
 
+    //
+    signal tableCreated (var name, var body);
+    signal dbCreated(var dbName);
 
     DatabaseModel {
         id: dbsModel;
@@ -67,9 +73,11 @@ Window {
         dbsModel.currentDbChanged.connect(qmodel.changeCurrentDb);
 
         // db structure communication
-        root.dropDb.connect(dbsModel.dropDatabase);
-        root.createDb.connect(dbsModel.createDatabase);
+        root.dbDroped.connect(dbsModel.dropDatabase);
+        root.dbCreated.connect(dbsModel.createDatabase);
         root.currentDbChanged.connect(dbsModel.changeCurrentDatabase);
         root.currentTableChanged.connect(dbsModel.changeCurrentTable);
+        root.tableCreated.connect(dbsModel.createTable);
+        root.tableDroped.connect(dbsModel.dropTable);
     }
 }

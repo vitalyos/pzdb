@@ -39,6 +39,8 @@ public slots:
     void createDatabase (const QString &dbName);
     void changeCurrentDatabase (const QString &dbName);
     void changeCurrentTable (const QString &tableName);
+    void createTable (const QString &name, const QList<QStringList> &body);
+    void dropTable (const QString &name);
 };
 
 #endif // DATABASEMODEL_H

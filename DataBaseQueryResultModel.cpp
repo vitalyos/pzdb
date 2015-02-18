@@ -28,6 +28,7 @@ DataBaseQueryResultModel::DataBaseQueryResultModel(QObject *aParent)
     }
 #endif
     connect (this, &DataBaseQueryResultModel::dataChanged, this, &DataBaseQueryResultModel::updateModelData);
+    connect (this, &DataBaseQueryResultModel::dataChanged, this, &DataBaseQueryResultModel::reindexCurrentTable);
     emit dataChanged ();
 }
 
@@ -169,4 +170,9 @@ void DataBaseQueryResultModel::changeCurrentTable (QObject *aTable)
 void DataBaseQueryResultModel::changeCurrentDb (const QString dbName)
 {
     m_currentDbName = dbName;
+}
+
+void DataBaseQueryResultModel::reindexCurrentTable ()
+{
+
 }
