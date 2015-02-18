@@ -10,7 +10,6 @@
 class DataBaseCatalogSerializer
 {
 public:
-//    QLis load () const;
     static QList<DataBaseEntity> load ();
     static void save (QList<DataBaseEntity> *aList);
 private:

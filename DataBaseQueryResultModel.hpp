@@ -30,6 +30,8 @@ public:
     QStringList header () const;
     QStringList lens () const;
 
+    QString createName () const;
+
 public slots:
     void deleteRow (const QString aKey);
     void addDataRow (const QStringList & aDataRow);

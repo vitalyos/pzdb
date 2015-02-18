@@ -176,3 +176,8 @@ void DataBaseQueryResultModel::reindexCurrentTable ()
 {
 
 }
+
+QString DataBaseQueryResultModel::createName () const
+{
+    return m_currentDbName + "_" + m_currentTable->name ();
+}

@@ -34,6 +34,7 @@ DatabaseModel::DatabaseModel(QObject *parentObject)
 #else
     m_Content = DataBaseCatalogSerializer::load ();
 #endif
+    connect (this, &DatabaseModel::structureChanged, this, &DatabaseModel::saveStructure);
 }
 
 DatabaseModel::~DatabaseModel()
@@ -108,6 +109,7 @@ void DatabaseModel::createDatabase (const QString &dbName)
         m_Content << DataBaseEntity(dbName);
         endResetModel ();
     }
+    emit structureChanged ();
 }
 
 void DatabaseModel::dropDatabase (const QString &dbName)
@@ -117,6 +119,7 @@ void DatabaseModel::dropDatabase (const QString &dbName)
         beginResetModel ();
         m_Content.removeAt (idx);
         endResetModel ();
+        emit structureChanged ();
     }
 }
 
@@ -140,7 +143,7 @@ void DatabaseModel::changeCurrentTable (const QString &tableName)
 
 void DatabaseModel::createTable (const QString &name, const QList<QStringList> &body)
 {
-
+    emit structureChanged ();
 }
 
 void DatabaseModel::dropTable (const QString &name)
@@ -148,4 +151,10 @@ void DatabaseModel::dropTable (const QString &name)
     beginResetModel ();
     m_Content[m_currentDatabaseIndex].removeTable (name);
     endResetModel ();
+    emit structureChanged ();
+}
+
+void DatabaseModel::saveStructure ()
+{
+    DataBaseCatalogSerializer::save (&m_Content);
 }

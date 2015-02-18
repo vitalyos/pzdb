@@ -34,6 +34,7 @@ private:
 signals:
     void currentTableChanged (QObject * aTable);
     void currentDbChanged (const QString &dbName);
+    void structureChanged ();
 public slots:
     void dropDatabase (const QString &dbName);
     void createDatabase (const QString &dbName);
@@ -41,6 +42,9 @@ public slots:
     void changeCurrentTable (const QString &tableName);
     void createTable (const QString &name, const QList<QStringList> &body);
     void dropTable (const QString &name);
+
+private slots:
+    void saveStructure ();
 };
 
 #endif // DATABASEMODEL_H
