@@ -55,6 +55,8 @@ Item {
         anchors.bottom: insertZone.top;
         anchors.right: parent.right;
         resources: updateTableHeader();
+        onRowCountChanged: createFields(qmodel.header.length - 1, editors, editArea);
+        onColumnCountChanged: createFields(qmodel.header.length - 1, editors, editArea);
     }
 
     Component {

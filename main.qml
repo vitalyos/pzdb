@@ -13,6 +13,10 @@ Window {
     signal deleteKey (var key);
     signal insert(var data);
 
+    signal dropDb(var dbName);
+    signal createDb(var dbName);
+
+
     DatabaseModel {
         id: dbsModel;
     }
@@ -55,5 +59,12 @@ Window {
         // insert row
         root.insert.connect(controller.insertRow);
         controller.rowInserted.connect(qmodel.addDataRow);
+
+        // intermodel communication
+        dbsModel.currentTableChanged.connect(qmodel.changeCurrentTable);
+
+        // db structure communication
+        root.dropDb.connect(dbsModel.dropDatabase);
+        root.createDb.connect(dbsModel.createDatabase);
     }
 }

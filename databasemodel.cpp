@@ -74,3 +74,38 @@ QHash<int, QByteArray> DatabaseModel::roleNames() const
 
     return ret;
 }
+
+void DatabaseModel::sig ()
+{
+    emit currentTableChanged (m_Content.at (0).tables ().at (0));
+}
+
+int DatabaseModel::getIndexByName (const QString &aName)
+{
+    for (int i = 0; i < m_Content.size (); ++i) {
+        if (m_Content.at (i).name () == aName) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void DatabaseModel::createDatabase (const QString &dbName)
+{
+    int idx = getIndexByName (dbName);
+    if (idx == -1) {
+        beginResetModel ();
+        m_Content << DataBaseEntity(dbName);
+        endResetModel ();
+    }
+}
+
+void DatabaseModel::dropDatabase (const QString &dbName)
+{
+    int idx = getIndexByName (dbName);
+    if (idx != -1) {
+        beginResetModel ();
+        m_Content.removeAt (idx);
+        endResetModel ();
+    }
+}

@@ -157,3 +157,9 @@ QStringList DataBaseQueryResultModel::lens() const
     }
     return ret;
 }
+
+void DataBaseQueryResultModel::changeCurrentTable (QObject *aTable)
+{
+    TableEntity *t = (TableEntity*)aTable;
+    qDebug () << t->name ();
+}
