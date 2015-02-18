@@ -6,6 +6,7 @@
 DatabaseModel::DatabaseModel(QObject *parentObject)
     : QAbstractListModel (parentObject)
 {
+    m_currentDatabaseIndex = -1;
     DataBaseEntity d1("University");
     QList<TableEntity*> tel1;
     TableEntity *te11 = new TableEntity;
@@ -107,5 +108,14 @@ void DatabaseModel::dropDatabase (const QString &dbName)
         beginResetModel ();
         m_Content.removeAt (idx);
         endResetModel ();
+    }
+}
+
+void DatabaseModel::changeCurrentDatabase (const QString &dbName)
+{
+    int idx = getIndexByName (dbName);
+    if (idx != -1) {
+        m_currentDatabaseIndex = idx;
+        emit currentDbChanged (dbName);
     }
 }

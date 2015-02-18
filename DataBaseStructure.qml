@@ -71,6 +71,7 @@ Item {
                         acceptedButtons: Qt.LeftButton | Qt.RightButton;
                         onClicked: {
                             if (mouse.button == Qt.LeftButton) {
+                                root.currentDbChanged(dbname.text);
                                 changeFields();
                                 tableList.content = tableModel;
                             }

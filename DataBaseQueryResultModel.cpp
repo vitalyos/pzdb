@@ -163,3 +163,8 @@ void DataBaseQueryResultModel::changeCurrentTable (QObject *aTable)
     TableEntity *t = (TableEntity*)aTable;
     qDebug () << t->name ();
 }
+
+void DataBaseQueryResultModel::changeCurrentDb (const QString dbName)
+{
+    m_currentDbName = dbName
+}

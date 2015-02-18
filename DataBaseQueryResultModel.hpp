@@ -34,6 +34,7 @@ public slots:
     void deleteRow (const QString aKey);
     void addDataRow (const QStringList & aDataRow);
     void changeCurrentTable (QObject * aTable);
+    void changeCurrentDb (const QString dbName);
 private slots:
     void updateModelData ();
 
@@ -42,7 +43,7 @@ private:
     QStringList m_tableKeys;
     TableEntity* m_currentTable;
     MongoService *m_mongo;
-
+    QString m_currentDbName;
 protected:
     QHash<int, QByteArray> roleNames () const;
 signals:

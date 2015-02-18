@@ -15,6 +15,8 @@ Window {
 
     signal dropDb(var dbName);
     signal createDb(var dbName);
+    signal currentDbChanged(var dbName);
+    signal currentTableChanged (var tableName);
 
 
     DatabaseModel {
@@ -62,9 +64,11 @@ Window {
 
         // intermodel communication
         dbsModel.currentTableChanged.connect(qmodel.changeCurrentTable);
+        dbsModel.currentDbChanged.connect(qmodel.changeCurrentDb);
 
         // db structure communication
         root.dropDb.connect(dbsModel.dropDatabase);
         root.createDb.connect(dbsModel.createDatabase);
+        root.currentDbChanged.connect(dbsModel.changeCurrentDatabase);
     }
 }

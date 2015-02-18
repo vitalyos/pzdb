@@ -23,6 +23,7 @@ public:
 private:
     QList<DataBaseEntity> m_Content;
     QHash<int, QByteArray> roleNames() const;
+    int m_currentDatabaseIndex;
 
     int getIndexByName (const QString &aName);
 
@@ -32,9 +33,12 @@ private:
     };
 signals:
     void currentTableChanged (QObject * aTable);
+    void currentDbChanged (const QString &dbName);
 public slots:
     void dropDatabase (const QString &dbName);
     void createDatabase (const QString &dbName);
+    void changeCurrentDatabase (const QString &dbName);
+    void changeCurrentTable (const QString &tableName);
 };
 
 #endif // DATABASEMODEL_H
