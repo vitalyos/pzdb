@@ -4,15 +4,17 @@
 #include <QSettings>
 #include <QVariant>
 #include <QDebug>
+#include "DataBaseEntity.h"
+#include <QString>
 
 class DataBaseCatalogSerializer
 {
 public:
-    DataBaseCatalogSerializer(const QString fileName);
-//    BaseCatalogEntity load () const;
-//    void save (const BaseCatalogEntity &ent);
+//    QLis load () const;
+    static void save (QList<DataBaseEntity> *aList);
 private:
     QSettings m_Settings;
+    static QString filename;
 };
 
 #endif // DATABACECATALOGSERIALIZER_H

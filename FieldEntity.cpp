@@ -34,7 +34,36 @@ void FieldEntity::setName(const QString &name)
     m_Name = name;
     emit nameChanged ();
 }
+QString FieldEntity::refTableName() const
+{
+    return m_refTableName;
+}
 
+void FieldEntity::setRefTableName(const QString &refTableName)
+{
+    m_refTableName = refTableName;
+    emit rtableChanged();
+}
+QString FieldEntity::refFieldName() const
+{
+    return m_refFieldName;
+}
+
+void FieldEntity::setRefFieldName(const QString &refFieldName)
+{
+    m_refFieldName = refFieldName;
+    emit rfieldChanged ();
+}
+bool FieldEntity::indexed() const
+{
+    return m_indexed;
+}
+
+void FieldEntity::setIndexed(bool indexed)
+{
+    m_indexed = indexed;
+    emit indexedChanged ();
+}
 
 void FieldEntity::setFieldType(const quint8 &type)
 {

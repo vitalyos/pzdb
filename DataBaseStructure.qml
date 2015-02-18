@@ -56,6 +56,7 @@ Item {
         anchors.top: parent.top;
         anchors.left: parent.left;
         height: parent.height;
+
         delegate: Component {
             id: dbDelegate;
             Item {

@@ -2,6 +2,7 @@
 
 #include "databasemodel.h"
 #include "TableEntity.h"
+#include "DataBaseCatalogSerializer.h"
 
 DatabaseModel::DatabaseModel(QObject *parentObject)
     : QAbstractListModel (parentObject)
@@ -25,6 +26,7 @@ DatabaseModel::DatabaseModel(QObject *parentObject)
     m_Content << d1
               << DataBaseEntity("Life")
               << DataBaseEntity("High School");
+    DataBaseCatalogSerializer::save (&m_Content);
 }
 
 DatabaseModel::~DatabaseModel()
