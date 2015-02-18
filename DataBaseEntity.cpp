@@ -23,3 +23,13 @@ void DataBaseEntity::setTables(QList<TableEntity *> tables)
 {
     m_Tables = tables;
 }
+
+int DataBaseEntity::getIndexByName (const QString &tableName)
+{
+    for (int i = 0; i < m_Tables.size (); ++i) {
+        if (m_Tables.at (i)->name () == tableName) {
+            return i;
+        }
+    }
+    return -1;
+}
