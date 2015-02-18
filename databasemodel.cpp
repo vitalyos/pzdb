@@ -4,10 +4,14 @@
 #include "TableEntity.h"
 #include "DataBaseCatalogSerializer.h"
 
+//#define DEMO
+
 DatabaseModel::DatabaseModel(QObject *parentObject)
     : QAbstractListModel (parentObject)
 {
     m_currentDatabaseIndex = -1;
+
+#ifdef DEMO
     DataBaseEntity d1("University");
     QList<TableEntity*> tel1;
     TableEntity *te11 = new TableEntity;
@@ -27,6 +31,9 @@ DatabaseModel::DatabaseModel(QObject *parentObject)
               << DataBaseEntity("Life")
               << DataBaseEntity("High School");
     DataBaseCatalogSerializer::save (&m_Content);
+#else
+    m_Content = DataBaseCatalogSerializer::load ();
+#endif
 }
 
 DatabaseModel::~DatabaseModel()

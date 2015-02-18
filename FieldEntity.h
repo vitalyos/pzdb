@@ -17,6 +17,7 @@ class FieldEntity
     Q_PROPERTY(bool indexed READ indexed WRITE setIndexed NOTIFY indexedChanged)
 public:
     FieldEntity (const QString &name, const quint8 &type, const quint32 &length, const bool &primary, QObject * aParent = 0);
+    FieldEntity (QObject *aParent = 0);
 
     quint8 fieldType () const;
     quint32 length () const;

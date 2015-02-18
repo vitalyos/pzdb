@@ -6,26 +6,6 @@
 
 QString DataBaseCatalogSerializer::filename = "/home/zsvitalyos/.pzdb/catalog.json";
 
-//BaseCatalogEntity DataBaseCatalogSerializer::load() const
-//{
-//    qDebug () << "load...";
-//    QVariant var=  m_Settings.value("main/catalog");
-//    qDebug () << var.canConvert<BaseCatalogEntity>();
-//    return qvariant_cast<BaseCatalogEntity>(var);
-//}
-
-//void DataBaseCatalogSerializer::save(const BaseCatalogEntity &ent)
-//{
-//    QVariant variant  = qVariantFromValue(ent);
-//    qDebug () << "save.." << ent.rowCount() << "elements";
-//    m_Settings.clear();
-//    m_Settings.sync();
-//    m_Settings.beginGroup("main");
-//    m_Settings.setValue("catalog", variant);
-//    m_Settings.endGroup();
-//    m_Settings.sync();
-//}
-
 void DataBaseCatalogSerializer::save (QList<DataBaseEntity> *aList)
 {
     QJsonArray cat;
@@ -56,7 +36,43 @@ void DataBaseCatalogSerializer::save (QList<DataBaseEntity> *aList)
         qDebug () << cat;
         QJsonDocument doc(cat);
         QSettings file(filename, QSettings::NativeFormat);
-        file.setValue ("catalog", doc.toBinaryData ());
+        file.setValue ("cat/catalog", doc.toJson ());
         file.sync ();
     }
+}
+
+QList<DataBaseEntity> DataBaseCatalogSerializer::load ()
+{
+    QSettings file(filename, QSettings::NativeFormat);
+    QList<DataBaseEntity> cat;
+    QJsonDocument doc = QJsonDocument::fromJson (file.value ("cat/catalog").toByteArray ());
+    QJsonArray dbs = doc.array ();
+    foreach (const QJsonValue &o, doc.array ()) {
+        DataBaseEntity db(o.toObject ().value ("dbname").toString ());
+        QJsonArray ts = o.toObject ().value ("tables").toArray ();
+        QList<TableEntity*> tables;
+        foreach (const QJsonValue &at, ts) {
+            TableEntity * t = new TableEntity;
+            QJsonArray fj = at.toObject ().value ("fields").toArray ();
+            QList<FieldEntity*> fields;
+            foreach (const QJsonValue &fval, fj) {
+                FieldEntity *field = new FieldEntity;
+                QJsonObject o = fval.toObject ();
+                field->setName (o.value ("fname").toString ());
+                field->setFieldType (o.value ("ftype").toInt ());
+                field->setLength (o.value ("flength").toInt ());
+                field->setPrimary (o.value ("fprim").toBool ());
+                field->setRefTableName (o.value ("frt").toString ());
+                field->setRefFieldName (o.value ("frt").toString ());
+                field->setIndexed (o.value ("findexed").toBool ());
+                fields << field;
+            }
+            t->setName (at.toObject ().value ("tname").toString ());
+            t->setFields (fields);
+            tables << t;
+        }
+        db.setTables (tables);
+        cat << db;
+    }
+    return cat;
 }

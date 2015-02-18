@@ -4,6 +4,7 @@ DataBaseEntity::DataBaseEntity(const QString &name)
     : m_Name (name)
 {
 }
+
 QString DataBaseEntity::name() const
 {
     return m_Name;

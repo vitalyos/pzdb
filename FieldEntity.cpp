@@ -9,6 +9,11 @@ FieldEntity::FieldEntity(const QString &name, const quint8 &type, const quint32 
 {
 }
 
+FieldEntity::FieldEntity (QObject *aParent)
+    : QObject(aParent)
+{
+}
+
 quint8 FieldEntity::fieldType() const
 {
     return m_Type;
